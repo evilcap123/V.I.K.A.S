@@ -1,219 +1,218 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>V.I.K.A.S - Register</title>
-    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="https://unpkg.com/feather-icons"></script>
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.globe.min.js"></script>
-    <style>
-        #vanta-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-        }
-        .register-card {
-            backdrop-filter: blur(10px);
-            background-color: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        .input-field {
-            background-color: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-        .input-field:focus {
-            background-color: rgba(255, 255, 255, 0.2);
-        }
-        select.input-field {
-        background-color: rgba(0, 0, 0, 0.6); /* dropdown band hone par */
-        color: white; /* selected text color */
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>V.I.K.A.S - Register</title>
+  <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"/>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.globe.min.js"></script>
+  <style>
+    #vanta-bg {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: -1;
     }
-
+    .register-card {
+      backdrop-filter: blur(10px);
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .input-field {
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    .input-field:focus {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+    select.input-field {
+      background-color: rgba(0, 0, 0, 0.6);
+      color: white;
+    }
     select.input-field option {
-        background-color: white; /* dropdown khulne par bg */
-        color: black; /* option text */
+      background-color: white;
+      color: black;
     }
-    </style>
+    .error-message {
+      color: #ff6b6b;
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+    }
+  </style>
 </head>
 <body class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-900 to-purple-900 text-white">
-    <div id="vanta-bg"></div>
-    
-    <div class="register-card rounded-2xl p-8 w-full max-w-md shadow-2xl" data-aos="zoom-in">
-        <div class="text-center mb-8">
-            <h1 class="text-4xl font-bold mb-2">V.I.K.A.S</h1>
-            <p class="text-blue-200">Create Your Student Account</p>
-        </div>
-        
-        <form id="registration-form" class="space-y-4">
-            <div class="grid grid-cols-2 gap-4">
-                <div>
-                    <label for="first-name" class="block text-sm font-medium mb-1">First Name</label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <i data-feather="user" class="text-blue-300"></i>
-                        </div>
-                        <input type="text" id="first-name" class="input-field pl-10 w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition" placeholder="First name">
-                    </div>
-                </div>
-                <div>
-                    <label for="last-name" class="block text-sm font-medium mb-1">Last Name</label>
-                    <input type="text" id="last-name" class="input-field w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition" placeholder="Last name">
-                </div>
-            </div>
-
-            <div>
-                <label for="email" class="block text-sm font-medium mb-1">Email</label>
-                <div class="relative">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <i data-feather="mail" class="text-blue-300"></i>
-                    </div>
-                    <input type="email" id="email" class="input-field pl-10 w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition" placeholder="student@example.com">
-                </div>
-            </div>
-
-            <div>
-                <label for="username" class="block text-sm font-medium mb-1">Username</label>
-                <div class="relative">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <i data-feather="at-sign" class="text-blue-300"></i>
-                    </div>
-                    <input type="text" id="username" class="input-field pl-10 w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition" placeholder="Choose username">
-                </div>
-            </div>
-
-            <div class="grid grid-cols-2 gap-4">
-                <div>
-                    <label for="password" class="block text-sm font-medium mb-1">Password</label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <i data-feather="lock" class="text-blue-300"></i>
-                        </div>
-                        <input type="password" id="password" class="input-field pl-10 w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition" placeholder="Create password">
-                    </div>
-                </div>
-                <div>
-                    <label for="confirm-password" class="block text-sm font-medium mb-1">Confirm</label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <i data-feather="lock" class="text-blue-300"></i>
-                        </div>
-                        <input type="password" id="confirm-password" class="input-field pl-10 w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition" placeholder="Confirm password">
-                    </div>
-                </div>
-            </div>
-
-            <div>
-                <label for="class" class="block text-sm font-medium mb-1">Class/Grade</label>
-                <select id="class" class="input-field w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
-                    <option value="" disabled selected>Select your class</option>
-                    <option value="1">Class 1</option>
-                    <option value="2">Class 2</option>
-                    <option value="3">Class 3</option>
-                    <option value="4">Class 4</option>
-                    <option value="5">Class 5</option>
-                    <option value="6">Class 6</option>
-                </select>
-            </div>
-
-            <div class="flex items-start">
-                <div class="flex items-center h-5">
-                    <input id="terms" type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
-                </div>
-                <div class="ml-3 text-sm">
-                    <label for="terms" class="text-blue-200">I agree to the <a href="#" class="text-white hover:text-blue-200 underline">Terms of Service</a> and <a href="#" class="text-white hover:text-blue-200 underline">Privacy Policy</a></label>
-                </div>
-            </div>
-            
-            <button type="submit" class="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white py-3 px-4 rounded-lg font-medium shadow-lg transition duration-300 transform hover:scale-105">
-                Create Account
-            </button>
-        </form>
-
-        <script>
-            document.getElementById('registration-form').addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                // Get form values
-                const studentData = {
-                    firstName: document.getElementById('first-name').value,
-                    lastName: document.getElementById('last-name').value,
-                    email: document.getElementById('email').value,
-                    username: document.getElementById('username').value,
-                    password: document.getElementById('password').value,
-                    class: document.getElementById('class').value,
-                    registrationDate: new Date().toISOString(),
-                    rp: 0, // Initial Rank Points
-                    tier: 'Bronze', // Initial Tier
-                    completedQuizzes: [],
-                    watchedVideos: []
-                };
-                
-                // Validate passwords match
-                if (studentData.password !== document.getElementById('confirm-password').value) {
-                    alert('Passwords do not match!');
-                    return;
-                }
-                
-                // Validate terms accepted
-                if (!document.getElementById('terms').checked) {
-                    alert('You must accept the terms and conditions');
-                    return;
-                }
-                
-                // Get existing students or initialize empty array
-                const students = JSON.parse(localStorage.getItem('vikas-students')) || [];
-                
-                // Check if username already exists
-                if (students.some(student => student.username === studentData.username)) {
-                    alert('Username already exists!');
-                    return;
-                }
-                
-                // Add new student
-                students.push(studentData);
-                
-                // Save to localStorage
-                localStorage.setItem('vikas-students', JSON.stringify(students));
-                
-                // Redirect to login page
-                alert('Registration successful! You can now login.');
-                window.location.href = 'index.html';
-            });
-        </script>
-        
-        <div class="mt-6 text-center">
-            <p class="text-sm text-blue-200">
-                Already have an account? 
-                <a href="index.html" class="font-medium text-white hover:text-blue-200">Sign in here</a>
-            </p>
-        </div>
+  <div id="vanta-bg"></div>
+  
+  <div class="register-card rounded-2xl p-8 w-full max-w-md shadow-2xl" data-aos="zoom-in">
+    <div class="text-center mb-8">
+      <h1 class="text-4xl font-bold mb-2">V.I.K.A.S</h1>
+      <p class="text-blue-200">Create Your Student Account</p>
     </div>
+    
+    <form id="registration-form" class="space-y-4">
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label for="first-name" class="block text-sm font-medium mb-1">First Name</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <i data-feather="user" class="text-blue-300"></i>
+            </div>
+            <input type="text" id="first-name" required class="input-field pl-10 w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition" placeholder="First name">
+          </div>
+        </div>
+        <div>
+          <label for="last-name" class="block text-sm font-medium mb-1">Last Name</label>
+          <input type="text" id="last-name" required class="input-field w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition" placeholder="Last name">
+        </div>
+      </div>
 
-    <script>
-        VANTA.GLOBE({
-            el: "#vanta-bg",
-            mouseControls: true,
-            touchControls: true,
-            gyroControls: false,
-            minHeight: 200.00,
-            minWidth: 200.00,
-            scale: 1.00,
-            scaleMobile: 1.00,
-            color: 0x3a86ff,
-            backgroundColor: 0x0,
-            size: 0.8
-        });
-        
-        AOS.init();
-        feather.replace();
-    </script>
+      <div>
+        <label for="email" class="block text-sm font-medium mb-1">Email</label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <i data-feather="mail" class="text-blue-300"></i>
+          </div>
+          <input type="email" id="email" required class="input-field pl-10 w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition" placeholder="student@example.com">
+        </div>
+      </div>
+
+      <div>
+        <label for="username" class="block text-sm font-medium mb-1">Username</label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <i data-feather="at-sign" class="text-blue-300"></i>
+          </div>
+          <input type="text" id="username" required class="input-field pl-10 w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition" placeholder="Choose username">
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label for="password" class="block text-sm font-medium mb-1">Password</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <i data-feather="lock" class="text-blue-300"></i>
+            </div>
+            <input type="password" id="password" required minlength="6" class="input-field pl-10 w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition" placeholder="Create password">
+          </div>
+        </div>
+        <div>
+          <label for="confirm-password" class="block text-sm font-medium mb-1">Confirm</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <i data-feather="lock" class="text-blue-300"></i>
+            </div>
+            <input type="password" id="confirm-password" required class="input-field pl-10 w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition" placeholder="Confirm password">
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <label for="class" class="block text-sm font-medium mb-1">Class/Grade</label>
+        <select id="class" required class="input-field w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+          <option value="" disabled selected>Select your class</option>
+          <option value="1">Class 1</option>
+          <option value="2">Class 2</option>
+          <option value="3">Class 3</option>
+          <option value="4">Class 4</option>
+          <option value="5">Class 5</option>
+          <option value="6">Class 6</option>
+        </select>
+      </div>
+
+      <div class="flex items-start">
+        <div class="flex items-center h-5">
+          <input id="terms" type="checkbox" required class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+        </div>
+        <div class="ml-3 text-sm">
+          <label for="terms" class="text-blue-200">I agree to the 
+            <a href="#" class="text-white hover:text-blue-200 underline">Terms of Service</a> and 
+            <a href="#" class="text-white hover:text-blue-200 underline">Privacy Policy</a>
+          </label>
+        </div>
+      </div>
+      
+      <div id="error-container"></div>
+
+      <button type="submit" class="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white py-3 px-4 rounded-lg font-medium shadow-lg transition duration-300 transform hover:scale-105">
+        Create Account
+      </button>
+    </form>
+
+    <div class="mt-6 text-center">
+      <p class="text-sm text-blue-200">
+        Already have an account? 
+        <a href="index.html" class="font-medium text-white hover:text-blue-200">Sign in here</a>
+      </p>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('registration-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const errorContainer = document.getElementById('error-container');
+      errorContainer.innerHTML = ""; // clear old errors
+
+      const studentData = {
+        firstName: document.getElementById('first-name').value.trim(),
+        lastName: document.getElementById('last-name').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        username: document.getElementById('username').value.trim(),
+        password: document.getElementById('password').value,
+        class: document.getElementById('class').value,
+        registrationDate: new Date().toISOString(),
+        rp: 0,
+        tier: 'Bronze',
+        completedQuizzes: [],
+        watchedVideos: []
+      };
+
+      if (studentData.password !== document.getElementById('confirm-password').value) {
+        showError("Passwords do not match!");
+        return;
+      }
+
+      const students = JSON.parse(localStorage.getItem('vikas-students')) || [];
+
+      if (students.some(student => student.username === studentData.username)) {
+        showError("Username already exists!");
+        return;
+      }
+
+      students.push(studentData);
+      localStorage.setItem('vikas-students', JSON.stringify(students));
+
+      alert("Registration successful! You can now login.");
+      window.location.href = "index.html";
+
+      function showError(msg) {
+        const p = document.createElement("p");
+        p.className = "error-message";
+        p.textContent = msg;
+        errorContainer.appendChild(p);
+      }
+    });
+
+    VANTA.GLOBE({
+      el: "#vanta-bg",
+      mouseControls: true,
+      touchControls: true,
+      gyroControls: false,
+      minHeight: 200.00,
+      minWidth: 200.00,
+      scale: 1.00,
+      scaleMobile: 1.00,
+      color: 0x3a86ff,
+      backgroundColor: 0x0,
+      size: 0.8
+    });
+
+    AOS.init();
+    feather.replace();
+  </script>
 </body>
 </html>
