@@ -12,100 +12,121 @@
 
 <style>
   body {
-    background: linear-gradient(135deg, #dfe9f3 0%, #ffffff 100%);
+    background: linear-gradient(135deg, #e6f0ff 0%, #ffffff 100%);
     font-family: 'Inter', sans-serif;
   }
 
   /* Sidebar */
-  .sidebar a { transition: all 0.3s ease; }
-  .sidebar a:hover { transform: translateX(5px); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
-  .sidebar a.active { background-color: rgba(255,255,255,0.2); }
+  .sidebar a { 
+    transition: all 0.3s ease; 
+    display: flex; align-items: center; gap: 10px;
+    padding: 0.6rem 1rem; border-radius: 0.5rem;
+  }
+  .sidebar a:hover { 
+    background: rgba(255,255,255,0.1); 
+    transform: translateX(6px); 
+  }
+  .sidebar a.active { 
+    background: rgba(255,255,255,0.2); 
+    font-weight: 600;
+  }
 
-  /* Cards & hover */
-  .subject-card { transition: transform 0.3s ease; cursor: pointer; }
-  .subject-card:hover { transform: scale(1.05); }
+  /* Subject Cards */
+  .subject-card { 
+    transition: all 0.35s ease; 
+    cursor: pointer; 
+    border: 1px solid rgba(0,0,0,0.05);
+  }
+  .subject-card:hover { 
+    transform: translateY(-6px) scale(1.03); 
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12); 
+  }
 
   /* FAB */
   #fab { transition: transform 0.3s ease; }
-  #fab:hover { transform: scale(1.15); }
+  #fab:hover { transform: scale(1.2) rotate(90deg); }
 
   /* Accordion */
-  .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.5s ease; }
+  .accordion-content { 
+    max-height: 0; 
+    overflow: hidden; 
+    transition: max-height 0.5s ease, padding 0.3s ease; 
+  }
+  .accordion-open .accordion-content { 
+    padding: 0.5rem 0; 
+  }
 
-  /* Fade transition for SPA */
+  /* SPA fade */
   .page-content { transition: opacity 0.5s; opacity: 1; }
   .page-hidden { opacity: 0; pointer-events: none; }
-
 </style>
 </head>
-<body class="bg-gray-50">
+<body>
 
 <div class="flex flex-col md:flex-row min-h-screen">
 
   <!-- Sidebar -->
   <div class="sidebar w-full md:w-64 bg-gradient-to-b from-blue-800 to-purple-900 text-white flex flex-col p-4">
     <h2 class="text-2xl font-bold mb-6">V.I.K.A.S</h2>
-    <nav class="flex flex-col space-y-3">
-      <a href="dashboard.html" class="sidebar-link" data-page="dashboard.html"><i data-feather="home"></i><span>Dashboard</span></a>
-      <a href="leaderboard.html" class="sidebar-link" data-page="leaderboard.html"><i data-feather="award"></i><span>Leaderboard</span></a>
-      <a href="learning.html" class="sidebar-link active" data-page="learning.html"><i data-feather="book"></i><span>Learning</span></a>
-      <a href="quiz.html" class="sidebar-link" data-page="quiz.html"><i data-feather="edit"></i><span>Quizzes</span></a>
+    <nav class="flex flex-col space-y-2">
+      <a href="dashboard.html" class="sidebar-link" data-page="dashboard.html"><i data-feather="home"></i> Dashboard</a>
+      <a href="leaderboard.html" class="sidebar-link" data-page="leaderboard.html"><i data-feather="award"></i> Leaderboard</a>
+      <a href="learning.html" class="sidebar-link active" data-page="learning.html"><i data-feather="book"></i> Learning</a>
+      <a href="quiz.html" class="sidebar-link" data-page="quiz.html"><i data-feather="edit"></i> Quizzes</a>
     </nav>
   </div>
 
   <!-- Main Content -->
   <div class="flex-1 p-6 overflow-y-auto page-content">
 
-    <header class="shadow-sm rounded-xl mb-6 p-4 flex justify-between items-center bg-white">
+    <!-- Header -->
+    <header class="shadow-sm rounded-xl mb-6 p-4 flex justify-between items-center bg-white sticky top-0 z-10">
       <h1 class="text-2xl font-bold text-gray-800">Learning Hub</h1>
-      <div class="flex items-center space-x-4">
-        <button class="bg-blue-100 p-2 rounded-full shadow-lg" aria-label="Messages">
-          <i data-feather="message-square" class="w-5 h-5 text-blue-600"></i>
-        </button>
-      </div>
+      <button class="bg-blue-100 p-2 rounded-full shadow-md hover:shadow-lg transition">
+        <i data-feather="message-square" class="w-5 h-5 text-blue-600"></i>
+      </button>
     </header>
 
     <!-- Subject Cards -->
     <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       <template id="subject-card-template">
-        <div class="subject-card bg-white rounded-lg shadow-lg p-6 transform" data-aos="fade-up">
+        <div class="subject-card bg-white rounded-lg shadow-md p-6 transform" data-aos="fade-up">
           <i data-feather="book-open" class="w-8 h-8 text-blue-600 mb-4"></i>
           <h3 class="font-semibold text-lg text-gray-800">Subject Name</h3>
         </div>
       </template>
     </section>
 
-    <!-- Featured Video Card -->
+    <!-- Featured Video -->
     <div class="bg-white rounded-xl shadow-md p-6 flex flex-col md:flex-row gap-6 items-center mt-10" data-aos="fade-up">
-      <div class="w-full md:w-2/3 aspect-w-16 aspect-h-9 bg-gray-200 rounded-lg overflow-hidden relative">
+      <div class="w-full md:w-2/3 aspect-w-16 aspect-h-9 bg-gray-200 rounded-lg overflow-hidden relative group">
         <img src="https://source.unsplash.com/featured/?education" alt="Featured Lesson" loading="lazy"
-        class="w-full h-full object-cover">
-        <button class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 hover:bg-opacity-70 rounded-lg transition"
-          aria-label="Play Featured Video">
-          <i data-feather="play-circle" class="w-12 h-12 text-white"></i>
+          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+        <button class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 hover:bg-opacity-60 rounded-lg transition">
+          <i data-feather="play-circle" class="w-14 h-14 text-white"></i>
         </button>
       </div>
-      <div class="md:w-1/3 space-y-4">
+      <div class="md:w-1/3 space-y-3">
         <h3 class="text-xl font-bold">Understanding Fractions</h3>
         <p class="text-gray-600">An interactive session on how fractions work in everyday life, simplified for better grasp.</p>
-        <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">Start Learning</button>
+        <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow">Start Learning</button>
       </div>
     </div>
 
-    <!-- Accordion Chapter List -->
+    <!-- Accordion Chapters -->
     <div class="bg-white rounded-xl shadow-md p-6 mt-10" data-aos="fade-up">
       <h3 class="text-xl font-semibold mb-4">Mathematics - Class 5</h3>
       <div id="accordion">
         <template id="chapter-template">
           <div class="border-b border-gray-200">
-            <button class="w-full text-left py-3 flex justify-between items-center" aria-expanded="false">
+            <button class="w-full text-left py-3 flex justify-between items-center font-medium hover:text-blue-600 transition">
               <span>Chapter Title</span>
               <i data-feather="chevron-down" class="w-5 h-5 transition-transform"></i>
             </button>
             <div class="accordion-content">
               <ul class="pl-4 py-2 space-y-2">
-                <li class="flex justify-between cursor-pointer hover:bg-gray-100 rounded p-2">
-                  <span><i data-feather="play-circle" class="w-4 h-4 text-blue-500 mr-2"></i> Video Title</span>
+                <li class="flex justify-between cursor-pointer hover:bg-gray-100 rounded p-2 transition">
+                  <span class="flex items-center"><i data-feather="play-circle" class="w-4 h-4 text-blue-500 mr-2"></i> Video Title</span>
                   <span class="text-sm text-gray-500">Duration</span>
                 </li>
               </ul>
@@ -119,7 +140,7 @@
 </div>
 
 <!-- FAB -->
-<button id="fab" class="fixed bottom-6 right-6 bg-blue-600 text-white rounded-full p-4 shadow-lg hover:bg-blue-700 animate-pulse" aria-label="Add New Content">
+<button id="fab" class="fixed bottom-6 right-6 bg-blue-600 text-white rounded-full p-4 shadow-lg hover:bg-blue-700 animate-bounce" aria-label="Add New Content">
   <i data-feather="plus" class="w-6 h-6"></i>
 </button>
 
@@ -127,16 +148,27 @@
 feather.replace();
 AOS.init({ once: true });
 
-// Accordion toggle
-document.querySelectorAll('#accordion button').forEach(btn=>{
-  btn.addEventListener('click', ()=>{
+// Accordion
+document.addEventListener("click", e => {
+  if (e.target.closest("#accordion button")) {
+    const btn = e.target.closest("button");
+    const wrapper = btn.parentElement;
     const content = btn.nextElementSibling;
-    const icon = btn.querySelector('i');
-    const isExpanded = btn.getAttribute('aria-expanded') === 'true';
-    btn.setAttribute('aria-expanded', !isExpanded);
-    if(isExpanded) { content.style.maxHeight = null; icon.classList.remove('rotate-180'); }
-    else { content.style.maxHeight = content.scrollHeight + "px"; icon.classList.add('rotate-180'); }
-  });
+    const icon = btn.querySelector("i");
+
+    const isOpen = wrapper.classList.contains("accordion-open");
+    document.querySelectorAll("#accordion .accordion-open").forEach(el => {
+      el.classList.remove("accordion-open");
+      el.querySelector(".accordion-content").style.maxHeight = null;
+      el.querySelector("i").classList.remove("rotate-180");
+    });
+
+    if (!isOpen) {
+      wrapper.classList.add("accordion-open");
+      content.style.maxHeight = content.scrollHeight + "px";
+      icon.classList.add("rotate-180");
+    }
+  }
 });
 
 // Populate subjects
@@ -144,7 +176,9 @@ const subjects = [
   { icon: 'book-open', title: 'Mathematics' },
   { icon: 'flask', title: 'Science' },
   { icon: 'book', title: 'English' },
-  { icon: 'map', title: 'Geography' }
+  { icon: 'map', title: 'Geography' },
+  { icon: 'globe', title: 'History' },
+  { icon: 'code', title: 'Computer Science' }
 ];
 const template = document.getElementById('subject-card-template');
 const section = document.querySelector('section.grid');
@@ -155,6 +189,7 @@ subjects.forEach((s,i)=>{
   clone.querySelector('div').setAttribute('data-aos-delay', 100*(i+1));
   section.appendChild(clone);
 });
+feather.replace();
 
 // SPA Navigation
 document.querySelectorAll('.sidebar-link').forEach(link=>{
@@ -178,7 +213,7 @@ function loadPage(url){
       feather.replace();
       AOS.refresh();
     });
-  }, 500);
+  }, 400);
 }
 </script>
 </body>
