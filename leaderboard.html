@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>V.I.K.A.S - Leaderboard</title>
+  <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+
+  <style>
+    body {
+      background: linear-gradient(135deg, #dfe9f3 0%, #ffffff 100%);
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* Sidebar hover */
+    .sidebar a {
+      transition: all 0.3s ease;
+    }
+    .sidebar a:hover {
+      transform: translateX(5px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    /* Badges */
+    .silver-badge {
+      background: linear-gradient(145deg, #d7d7d7, #a6a6a6);
+      color: #333;
+      box-shadow: 0 0 10px #c0c0c0;
+    }
+    .gold-badge {
+      background: linear-gradient(145deg, #ffd700, #ffa500);
+      color: white;
+      box-shadow: 0 0 12px #ffc107;
+      animation: glowGold 1.5s infinite alternate;
+    }
+    .platinum-badge {
+      background: linear-gradient(145deg, #e5e5e5, #bdbdbd);
+      color: white;
+      box-shadow: 0 0 12px #ccc;
+      animation: glowPlat 1.5s infinite alternate;
+    }
+    .diamond-badge {
+      background: linear-gradient(145deg, #a3f7ff, #00bcd4);
+      color: white;
+      box-shadow: 0 0 15px #00e5ff;
+      animation: glowDia 1.5s infinite alternate;
+    }
+
+    @keyframes glowGold { from { box-shadow: 0 0 10px rgba(255,215,0,0.5); } to { box-shadow: 0 0 25px rgba(255,215,0,1); } }
+    @keyframes glowPlat { from { box-shadow: 0 0 10px rgba(229,228,226,0.5); } to { box-shadow: 0 0 25px rgba(229,228,226,1); } }
+    @keyframes glowDia { from { box-shadow: 0 0 10px rgba(185,242,255,0.5); } to { box-shadow: 0 0 25px rgba(185,242,255,1); } }
+
+    /* Table hover effect */
+    tbody tr { transition: all 0.3s ease; cursor: pointer; }
+    tbody tr:hover { transform: scale(1.02); background: linear-gradient(to right, #d0f0fd, #f0d6fc); box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+
+    /* Highlight current user */
+    tbody tr.bg-blue-50 { background: linear-gradient(to right, #90caf9, #64b5f6); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+
+    /* Avatars */
+    .flex-shrink-0 img { border: 2px solid white; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .flex-shrink-0 img:hover { transform: scale(1.1); box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+
+    /* Header */
+    header { background: linear-gradient(to right, #ffffff, #f0f0f0); border-radius: 1rem; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+
+    /* Tier cards */
+    .bg-white.rounded-xl.shadow-md > div { transition: all 0.3s ease; }
+    .bg-white.rounded-xl.shadow-md > div:hover { transform: translateY(-5px) scale(1.02); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+
+    /* Select filters */
+    select { transition: all 0.3s ease; }
+    select:hover { background: #e0f7fa; transform: scale(1.05); }
+
+    /* Scrollbar styling */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-thumb { background: #888; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #555; }
+  </style>
+</head>
+<body class="bg-gray-50">
+<div class="flex flex-col md:flex-row min-h-screen">
+
+  <!-- Sidebar -->
+  <div class="sidebar w-full md:w-64 text-white flex flex-col p-4 bg-gradient-to-b from-blue-800 to-purple-900">
+    <h2 class="text-2xl font-bold mb-6">V.I.K.A.S</h2>
+    <nav class="flex flex-col space-y-3">
+      <a href="dashboard.html" class="hover:bg-white/20 px-3 py-2 rounded flex items-center space-x-2 transition-all duration-300">
+        <i data-feather="home"></i>
+        <span>Dashboard</span>
+      </a>
+      <a href="leaderboard.html" class="bg-white/20 px-3 py-2 rounded flex items-center space-x-2">
+        <i data-feather="award"></i>
+        <span>Leaderboard</span>
+      </a>
+      <a href="learning.html" class="hover:bg-white/20 px-3 py-2 rounded flex items-center space-x-2 transition-all duration-300">
+        <i data-feather="book"></i>
+        <span>Learning</span>
+      </a>
+      <a href="quiz.html" class="hover:bg-white/20 px-3 py-2 rounded flex items-center space-x-2 transition-all duration-300">
+        <i data-feather="edit"></i>
+        <span>Quizzes</span>
+      </a>
+    </nav>
+  </div>
+
+  <!-- Main Content -->
+  <div class="flex-1 p-6 overflow-y-auto transition-opacity duration-500 opacity-100">
+    <header class="shadow-sm rounded-xl mb-6 p-4 flex justify-between items-center">
+      <h2 class="text-xl font-semibold text-white">Leaderboard</h2>
+      <button class="p-2 rounded-full bg-white/30 text-white hover:bg-white/50">
+        <i data-feather="message-square"></i>
+      </button>
+    </header>
+
+    <!-- Tier System -->
+    <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8 p-6" data-aos="fade-up">
+      <h3 class="text-lg font-semibold text-gray-800 mb-4">Tier System</h3>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="border border-gray-200 rounded-lg p-4 text-center">
+          <div class="mx-auto w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mb-2">
+            <i data-feather="award" class="text-gray-600"></i>
+          </div>
+          <h4 class="font-medium">Silver Tier</h4>
+          <p class="text-sm text-gray-500">100-499 RP</p>
+        </div>
+        <div class="border border-gray-200 rounded-lg p-4 text-center">
+          <div class="mx-auto w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mb-2">
+            <i data-feather="award" class="text-yellow-600"></i>
+          </div>
+          <h4 class="font-medium">Gold Tier</h4>
+          <p class="text-sm text-gray-500">500-999 RP</p>
+        </div>
+        <div class="border border-gray-200 rounded-lg p-4 text-center">
+          <div class="mx-auto w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-2">
+            <i data-feather="award" class="text-gray-400"></i>
+          </div>
+          <h4 class="font-medium">Platinum Tier</h4>
+          <p class="text-sm text-gray-500">1000-1999 RP</p>
+        </div>
+        <div class="border border-gray-200 rounded-lg p-4 text-center">
+          <div class="mx-auto w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-2">
+            <i data-feather="award" class="text-blue-400"></i>
+          </div>
+          <h4 class="font-medium">Diamond Tier</h4>
+          <p class="text-sm text-gray-500">2000+ RP</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Leaderboard Table -->
+    <div class="bg-white rounded-xl shadow-md overflow-hidden p-6" data-aos="fade-up">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-semibold text-gray-800">Top Students</h3>
+        <div class="flex items-center space-x-2">
+          <select id="classFilter" class="appearance-none bg-gray-100 border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded-lg">
+            <option value="all">All Classes</option>
+            <option value="5">Class 5</option>
+            <option value="4">Class 4</option>
+            <option value="6">Class 6</option>
+          </select>
+          <select id="subjectFilter" class="appearance-none bg-gray-100 border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded-lg">
+            <option value="all">All Subjects</option>
+            <option value="Math">Mathematics</option>
+            <option value="Science">Science</option>
+            <option value="English">English</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rank</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Class</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tier</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">RP</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quizzes</th>
+            </tr>
+          </thead>
+          <tbody id="leaderboard-body" class="bg-white divide-y divide-gray-200"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // SPA smooth page load handled by loadPage() in main script
+  function getBadgeClass(tier) {
+    switch(tier){
+      case "Silver": return "silver-badge px-2 py-1 inline-flex text-xs font-semibold rounded-full";
+      case "Gold": return "gold-badge px-2 py-1 inline-flex text-xs font-semibold rounded-full";
+      case "Platinum": return "platinum-badge px-2 py-1 inline-flex text-xs font-semibold rounded-full";
+      case "Diamond": return "diamond-badge px-2 py-1 inline-flex text-xs font-semibold rounded-full";
+      default: return "bg-gray-200 text-gray-800 px-2 py-1 inline-flex text-xs font-semibold rounded-full";
+    }
+  }
+
+  function loadLeaderboard(){
+    const students = JSON.parse(localStorage.getItem("vikas-students")) || [];
+    students.sort((a,b)=>b.rp - a.rp);
+
+    const tbody = document.getElementById("leaderboard-body");
+    tbody.innerHTML="";
+
+    students.forEach((student,index)=>{
+      const isYou = student.username === "You";
+      const tr = document.createElement("tr");
+      tr.className = isYou ? "bg-blue-50" : "bg-white";
+      tr.innerHTML = `
+        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium ${isYou ? 'text-blue-800':'text-gray-900'}">${index+1}</td>
+        <td class="px-6 py-4 whitespace-nowrap">
+          <div class="flex items-center">
+            <div class="flex-shrink-0 h-10 w-10">
+              <img class="h-10 w-10 rounded-full" src="${student.avatar || 'http://static.photos/people/200x200/default'}" alt="">
+            </div>
+            <div class="ml-4">
+              <div class="text-sm font-medium ${isYou?'text-blue-800':'text-gray-900'}">${isYou?'You':student.username}</div>
+              <div class="text-sm ${isYou?'text-blue-600':'text-gray-500'}">@${student.username.replaceAll(' ','').toLowerCase()}</div>
+            </div>
+          </div>
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm ${isYou?'text-blue-600':'text-gray-500'}">Class ${student.class}</td>
+        <td class="px-6 py-4 whitespace-nowrap">
+          <span class="${getBadgeClass(student.tier)}">${student.tier}</span>
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium ${isYou?'text-blue-800':'text-gray-900'}">${student.rp}</td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm ${isYou?'text-blue-600':'text-gray-500'}">${student.quizzes}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  loadLeaderboard();
+  feather.replace();
+  AOS.init({ once: true });
+</script>
+</body>
+</html>
