@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>V.I.K.A.S - Settings</title>
+  <link rel="icon" type="image/x-icon" href="/static/favicon.ico"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/feather-icons"></script>
+  <style>
+    @keyframes fade-in-up {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fade-out {
+      from { opacity: 1; transform: translateY(0); }
+      to { opacity: 0; transform: translateY(20px); }
+    }
+    .animate-fade-in-up { animation: fade-in-up 0.4s ease-out; }
+    .animate-fade-out { animation: fade-out 0.4s ease-in forwards; }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-50 min-h-screen flex flex-col">
+  <!-- Header -->
+  <header class="bg-white shadow-md p-4 flex justify-between items-center sticky top-0 z-10">
+    <h1 class="text-xl font-semibold text-gray-800 flex items-center gap-2 animate-fade-in-up">
+      <i data-feather="settings"></i> Settings
+    </h1>
+    <a href="dashboard.html" class="text-blue-600 hover:text-blue-800 transition">← Back to Dashboard</a>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-1 p-6 max-w-2xl mx-auto space-y-8">
+    <!-- Profile Picture -->
+    <section class="bg-white rounded-xl shadow-lg p-6 transform transition hover:shadow-xl animate-fade-in-up">
+      <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
+        <i data-feather="user"></i> Profile Picture
+      </h2>
+      <div class="flex items-center space-x-4">
+        <img id="profile-pic" src="https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"
+          class="w-20 h-20 rounded-full border-2 border-gray-300 object-cover shadow-md"/>
+        <div>
+          <input type="file" id="profile-upload" accept="image/*"
+            class="block text-sm text-gray-600 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700 cursor-pointer"/>
+          <p class="text-xs text-gray-400 mt-2">Upload a square image for best results</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Personal Info -->
+    <section class="bg-white rounded-xl shadow-lg p-6 transform transition hover:shadow-xl animate-fade-in-up">
+      <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
+        <i data-feather="edit-3"></i> Personal Information
+      </h2>
+      <form id="info-form" class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700">First Name</label>
+          <input type="text" id="firstName"
+            class="mt-1 block w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"/>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Last Name</label>
+          <input type="text" id="lastName"
+            class="mt-1 block w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"/>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Class</label>
+          <input type="text" id="class"
+            class="mt-1 block w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-100 text-gray-600 cursor-not-allowed" readonly/>
+        </div>
+        <button type="submit"
+          class="w-full bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 transform hover:scale-[1.02] transition">
+          Save Changes
+        </button>
+      </form>
+    </section>
+  </main>
+
+  <!-- Toast Container -->
+  <div id="toast-container" class="fixed bottom-6 right-6 space-y-3 z-50"></div>
+
+  <script>
+    feather.replace();
+
+    // Load student data
+    let student = JSON.parse(sessionStorage.getItem("current-student") || localStorage.getItem("current-student"));
+    if (!student) {
+      window.location.href = "index.html"; // force login if no student
+    }
+
+    // Fill form fields
+    document.getElementById("firstName").value = student.firstName || "";
+    document.getElementById("lastName").value = student.lastName || "";
+    document.getElementById("class").value = student.class || "";
+    if (student.pfp) {
+      document.getElementById("profile-pic").src = student.pfp;
+    }
+
+    // Save helper
+    function saveStudent() {
+      sessionStorage.setItem("current-student", JSON.stringify(student));
+      localStorage.setItem("current-student", JSON.stringify(student));
+    }
+
+    // Toast notification
+    function showNotification(message, type="success") {
+      const container = document.getElementById("toast-container");
+      const colors = {
+        success: "border-green-500 text-green-700",
+        error: "border-red-500 text-red-700",
+        info: "border-blue-500 text-blue-700",
+        warning: "border-yellow-500 text-yellow-700"
+      };
+
+      const toast = document.createElement("div");
+      toast.className =
+        `bg-white shadow-lg rounded-lg px-4 py-3 flex items-center space-x-3 border-l-4 ${colors[type]} animate-fade-in-up`;
+      toast.innerHTML = `<i data-feather="check-circle"></i><span>${message}</span>`;
+
+      container.appendChild(toast);
+      feather.replace();
+
+      // Auto remove
+      setTimeout(() => {
+        toast.classList.add("animate-fade-out");
+        setTimeout(() => toast.remove(), 500);
+      }, 3000);
+    }
+
+    // Handle profile picture upload
+    document.getElementById("profile-upload").addEventListener("change", function() {
+      const file = this.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById("profile-pic").src = e.target.result;
+          student.pfp = e.target.result; // Save base64 string
+          saveStudent();
+          showNotification("Profile picture updated! 🎉", "success");
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Handle info form submission
+    document.getElementById("info-form").addEventListener("submit", function(e) {
+      e.preventDefault();
+      student.firstName = document.getElementById("firstName").value.trim();
+      student.lastName = document.getElementById("lastName").value.trim();
+      saveStudent();
+      showNotification("Profile info updated! 🎉", "success");
+    });
+  </script>
+</body>
+</html>
