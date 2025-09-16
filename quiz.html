@@ -1,268 +1,193 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>V.I.K.A.S - Quiz</title>
-    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
-
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- AOS Animation Library -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-
-    <!-- Feather Icons -->
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-
-    <style>
-        body {
-            background: linear-gradient(135deg, #dfe9f3 0%, #ffffff 100%);
-            font-family: 'Inter', sans-serif;
-        }
-
-        .accordion-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s ease;
-        }
-
-        .rotate-180 {
-            transform: rotate(180deg);
-            transition: transform 0.3s ease;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>V.I.K.A.S - Quizzes</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+  <style>
+    body { background: linear-gradient(135deg,#e0f7fa,#fce4ec); font-family: 'Inter',sans-serif; }
+    .quiz-card:hover { transform: translateY(-5px) scale(1.02); transition: all .3s ease; }
+  </style>
 </head>
+<body>
+<div class="flex flex-col md:flex-row min-h-screen">
+  
+  <!-- Sidebar -->
+  <div class="w-full md:w-64 bg-gradient-to-b from-blue-800 to-purple-900 text-white flex flex-col p-4">
+    <h2 class="text-2xl font-bold mb-6">V.I.K.A.S</h2>
+    <nav class="flex flex-col space-y-3">
+      <a href="dashboard.html" class="hover:bg-white/20 px-3 py-2 rounded flex items-center space-x-2"><i data-feather="home"></i><span>Dashboard</span></a>
+      <a href="leaderboard.html" class="hover:bg-white/20 px-3 py-2 rounded flex items-center space-x-2"><i data-feather="award"></i><span>Leaderboard</span></a>
+      <a href="learning.html" class="hover:bg-white/20 px-3 py-2 rounded flex items-center space-x-2"><i data-feather="book"></i><span>Learning</span></a>
+      <a href="quiz.html" class="bg-white/20 px-3 py-2 rounded flex items-center space-x-2"><i data-feather="edit"></i><span>Quizzes</span></a>
+    </nav>
+  </div>
 
-<body class="bg-gray-50">
-    <div class="flex flex-col md:flex-row min-h-screen">
+  <!-- Main Content -->
+  <div class="flex-1 p-6 overflow-y-auto">
+    <header class="bg-white shadow-md rounded-xl mb-6 p-4 flex justify-between items-center">
+      <h2 class="text-xl font-semibold text-gray-800">Quiz Center</h2>
+      <button class="p-2 rounded-full bg-blue-100 text-blue-600 hover:bg-blue-200"><i data-feather="message-square"></i></button>
+    </header>
 
-        <!-- Sidebar -->
-        <div class="sidebar w-full md:w-64 bg-gradient-to-b from-blue-800 to-purple-900 text-white flex flex-col p-4">
-            <h2 class="text-xl font-bold mb-4">V.I.K.A.S</h2>
-            <nav class="flex flex-col space-y-2">
-                <a href="dashboard.html"
-                    class="hover:bg-blue-700 px-3 py-2 rounded flex items-center space-x-2">
-                    <i data-feather="home"></i>
-                    <span>Dashboard</span>
-                </a>
-                <a href="leaderboard.html"
-                    class="hover:bg-blue-700 px-3 py-2 rounded flex items-center space-x-2">
-                    <i data-feather="award"></i>
-                    <span>Leaderboard</span>
-                </a>
-                <a href="learning.html"
-                    class="hover:bg-blue-700 px-3 py-2 rounded flex items-center space-x-2">
-                    <i data-feather="book"></i>
-                    <span>Learning</span>
-                </a>
-                <a href="quiz.html" class="bg-blue-700 px-3 py-2 rounded flex items-center space-x-2">
-                    <i data-feather="edit" class="w-5 h-5 mr-3"></i>
-                    <span>Quizzes</span>
-                </a>
-            </nav>
-        </div>
-
-        <!-- Main Content -->
-        <div class="flex-1 p-6 overflow-y-auto">
-
-            <!-- Header -->
-            <header class="bg-white shadow-sm rounded-xl mb-6 p-4 flex justify-between items-center">
-                <h2 class="text-xl font-semibold text-gray-800">Quiz Center</h2>
-                <div class="flex items-center space-x-4">
-                    <button class="p-2 rounded-full bg-blue-100 text-blue-600 hover:bg-blue-200">
-                        <i data-feather="message-square"></i>
-                    </button>
-                </div>
-            </header>
-
-            <main class="p-6">
-
-                <!-- Quiz Categories -->
-                <div class="mb-8">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Select Quiz Category</h3>
-                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                        <button
-                            class="py-3 px-4 bg-white border border-blue-200 rounded-lg hover:bg-blue-50 text-blue-600 font-medium transition flex flex-col items-center">
-                            <i data-feather="plus-circle" class="w-6 h-6 mb-2"></i>
-                            Mathematics
-                        </button>
-                        <button
-                            class="py-3 px-4 bg-white border border-blue-200 rounded-lg hover:bg-blue-50 text-blue-600 font-medium transition flex flex-col items-center">
-                            <i data-feather="plus-circle" class="w-6 h-6 mb-2"></i>
-                            Science
-                        </button>
-                        <button
-                            class="py-3 px-4 bg-white border border-blue-200 rounded-lg hover:bg-blue-50 text-blue-600 font-medium transition flex flex-col items-center">
-                            <i data-feather="plus-circle" class="w-6 h-6 mb-2"></i>
-                            English
-                        </button>
-                        <button
-                            class="py-3 px-4 bg-white border border-blue-200 rounded-lg hover:bg-blue-50 text-blue-600 font-medium transition flex flex-col items-center">
-                            <i data-feather="plus-circle" class="w-6 h-6 mb-2"></i>
-                            History
-                        </button>
-                        <button
-                            class="py-3 px-4 bg-white border border-blue-200 rounded-lg hover:bg-blue-50 text-blue-600 font-medium transition flex flex-col items-center">
-                            <i data-feather="plus-circle" class="w-6 h-6 mb-2"></i>
-                            Geography
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Available Quizzes -->
-                <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8" data-aos="fade-up">
-                    <div class="p-6">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Available Quizzes</h3>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            <!-- Example Quiz Card -->
-                            <div
-                                class="border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition transform hover:-translate-y-1">
-                                <div class="bg-gradient-to-r from-blue-500 to-blue-600 p-4 text-white">
-                                    <h4 class="font-bold">Mathematics Quiz</h4>
-                                    <p class="text-sm text-blue-100">Chapter 1: Numbers</p>
-                                </div>
-                                <div class="p-4">
-                                    <div class="flex items-center text-sm text-gray-500 mb-3">
-                                        <i data-feather="clock" class="w-4 h-4 mr-1"></i>
-                                        <span>15 minutes</span>
-                                    </div>
-                                    <div class="flex items-center text-sm text-gray-500 mb-3">
-                                        <i data-feather="bar-chart-2" class="w-4 h-4 mr-1"></i>
-                                        <span>10 questions</span>
-                                    </div>
-                                    <div class="flex items-center text-sm text-gray-500 mb-4">
-                                        <i data-feather="award" class="w-4 h-4 mr-1"></i>
-                                        <span>Max 100 RP</span>
-                                    </div>
-                                    <button
-                                        class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg font-medium transition">
-                                        Start Quiz
-                                    </button>
-                                </div>
-                            </div>
-                            <!-- Add other quiz cards here -->
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Previous Attempts -->
-                <div class="bg-white rounded-xl shadow-md overflow-hidden" data-aos="fade-up">
-                    <div class="p-6">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Your Previous Attempts</h3>
-
-                        <div class="overflow-x-auto">
-                            <table class="min-w-full divide-y divide-gray-200">
-                                <thead class="bg-gray-50">
-                                    <tr>
-                                        <th
-                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Quiz
-                                        </th>
-                                        <th
-                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Date
-                                        </th>
-                                        <th
-                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Score
-                                        </th>
-                                        <th
-                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            RP Earned
-                                        </th>
-                                        <th
-                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Action
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody class="bg-white divide-y divide-gray-200">
-
-                                    <!-- Attempt Row -->
-                                    <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="flex items-center">
-                                                <div
-                                                    class="flex-shrink-0 h-10 w-10 bg-blue-100 rounded-full flex items-center justify-center">
-                                                    <i data-feather="edit" class="text-blue-600"></i>
-                                                </div>
-                                                <div class="ml-4">
-                                                    <div class="text-sm font-medium text-gray-900">Mathematics Quiz
-                                                    </div>
-                                                    <div class="text-sm text-gray-500">Chapter 1</div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">May 15, 2023</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <span
-                                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                                85%
-                                            </span>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">50 RP</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                            <button
-                                                class="toggle-details text-blue-600 hover:text-blue-900 flex items-center space-x-1">
-                                                <span>View Details</span>
-                                                <i data-feather="chevron-down" class="w-4 h-4"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-
-                                    <!-- Expandable Row -->
-                                    <tr class="quiz-details">
-                                        <td colspan="5" class="px-6 py-0 bg-gray-50">
-                                            <div class="accordion-content">
-                                                <div
-                                                    class="p-4 rounded-lg border border-gray-200 bg-white shadow-sm space-y-2">
-                                                    <p><strong>Time Taken:</strong> 12 minutes</p>
-                                                    <p><strong>Correct Answers:</strong> 8</p>
-                                                    <p><strong>Incorrect Answers:</strong> 2</p>
-                                                    <button
-                                                        class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded">Retry
-                                                        Quiz</button>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-            </main>
-        </div>
+    <!-- Categories -->
+    <div class="mb-8" id="category-section">
+      <h3 class="text-lg font-semibold text-gray-800 mb-4">Select Category</h3>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+        <button onclick="showCategory('Math')" class="py-3 px-4 bg-white rounded-lg shadow text-blue-600 font-medium flex flex-col items-center"><i data-feather="plus-circle"></i>Math</button>
+        <button onclick="showCategory('Science')" class="py-3 px-4 bg-white rounded-lg shadow text-green-600 font-medium flex flex-col items-center"><i data-feather="plus-circle"></i>Science</button>
+        <button onclick="showCategory('English')" class="py-3 px-4 bg-white rounded-lg shadow text-purple-600 font-medium flex flex-col items-center"><i data-feather="plus-circle"></i>English</button>
+      </div>
     </div>
 
-    <script>
-        AOS.init();
-        feather.replace();
+    <!-- Quiz List -->
+    <div id="quiz-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
 
-        // Toggle expandable rows
-        document.querySelectorAll(".toggle-details").forEach((btn) => {
-            btn.addEventListener("click", () => {
-                const tr = btn.closest("tr");
-                const detailsRow = tr.nextElementSibling;
-                const content = detailsRow.querySelector(".accordion-content");
-                const icon = btn.querySelector("i");
+    <!-- Quiz Engine -->
+    <div id="quiz-engine" class="hidden bg-white rounded-xl shadow-md p-6" data-aos="fade-up">
+      <h3 id="quiz-title" class="text-lg font-semibold mb-4"></h3>
+      <div id="quiz-question" class="text-xl font-medium mb-6"></div>
+      <div id="quiz-options" class="space-y-3"></div>
+      <div class="mt-6 flex justify-between items-center">
+        <span id="quiz-progress" class="text-gray-500 text-sm"></span>
+        <span id="quiz-timer" class="font-semibold text-red-600"></span>
+        <button id="next-btn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg hidden">Next</button>
+      </div>
+    </div>
 
-                if (content.style.maxHeight) {
-                    content.style.maxHeight = null;
-                    icon.classList.remove("rotate-180");
-                } else {
-                    content.style.maxHeight = content.scrollHeight + "px";
-                    icon.classList.add("rotate-180");
-                }
-            });
-        });
-    </script>
+    <!-- Quiz Result -->
+    <div id="quiz-result" class="hidden bg-green-100 text-green-800 p-6 rounded-xl shadow-md text-center" data-aos="zoom-in">
+      <h3 class="text-xl font-bold mb-2">🎉 Quiz Completed!</h3>
+      <p class="mb-2">Your Score: <span id="final-score" class="font-semibold">0</span></p>
+      <p id="earned-rp" class="mb-4"></p>
+      <button onclick="restartQuiz()" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg">Retry</button>
+    </div>
+  </div>
+</div>
+
+<script>
+AOS.init(); feather.replace();
+
+// Questions DB
+const questionBank = {
+  Math: [
+    {q:"What is 25×4?", opts:["50","75","100","125"], ans:"100"},
+    {q:"12÷3 = ?", opts:["2","3","4","6"], ans:"4"}
+  ],
+  Science: [
+    {q:"Largest planet?", opts:["Earth","Mars","Jupiter","Saturn"], ans:"Jupiter"},
+    {q:"Gas for breathing?", opts:["CO2","O2","H2","N2"], ans:"O2"}
+  ],
+  English: [
+    {q:"Synonym of 'Happy'?", opts:["Sad","Joyful","Angry","Fast"], ans:"Joyful"},
+    {q:"Which is verb?", opts:["Run","Blue","Happy","Book"], ans:"Run"}
+  ]
+};
+
+let currentQuiz = "", currentQ = 0, score = 0, timer, timeLeft = 60;
+
+// Show quizzes in category
+function showCategory(cat){
+  const container=document.getElementById("quiz-container");
+  container.innerHTML="";
+  const card=document.createElement("div");
+  card.className="quiz-card bg-white p-4 rounded-xl border";
+  card.innerHTML=`
+    <h4 class="font-bold text-lg mb-2">${cat} Basics</h4>
+    <p>${questionBank[cat].length} Questions - 1 min</p>
+    <button onclick="startQuiz('${cat}')" class="w-full mt-3 bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg">Start Quiz</button>
+  `;
+  container.appendChild(card);
+}
+
+// Start quiz
+function startQuiz(cat){
+  currentQuiz=cat; currentQ=0; score=0; timeLeft=60;
+  document.getElementById("category-section").classList.add("hidden");
+  document.getElementById("quiz-container").classList.add("hidden");
+  document.getElementById("quiz-engine").classList.remove("hidden");
+  document.getElementById("quiz-title").textContent=`${cat} Quiz`;
+  loadQuestion();
+  startTimer();
+}
+
+function loadQuestion(){
+  const q=questionBank[currentQuiz][currentQ];
+  document.getElementById("quiz-question").textContent=q.q;
+  const optsDiv=document.getElementById("quiz-options");
+  optsDiv.innerHTML="";
+  q.opts.forEach(opt=>{
+    const btn=document.createElement("button");
+    btn.textContent=opt;
+    btn.className="w-full text-left px-4 py-2 border rounded-lg hover:bg-blue-50";
+    btn.onclick=()=>selectAnswer(btn,opt,q.ans);
+    optsDiv.appendChild(btn);
+  });
+  document.getElementById("quiz-progress").textContent=`Question ${currentQ+1} of ${questionBank[currentQuiz].length}`;
+}
+
+function selectAnswer(btn,selected,correct){
+  [...document.getElementById("quiz-options").children].forEach(b=>b.disabled=true);
+  if(selected===correct){ btn.classList.add("bg-green-100"); score++; }
+  else{ btn.classList.add("bg-red-100"); }
+  document.getElementById("next-btn").classList.remove("hidden");
+}
+
+document.getElementById("next-btn").addEventListener("click",()=>{
+  currentQ++;
+  if(currentQ<questionBank[currentQuiz].length){
+    document.getElementById("next-btn").classList.add("hidden");
+    loadQuestion();
+  }else{ endQuiz(); }
+});
+
+function startTimer(){
+  document.getElementById("quiz-timer").textContent=`⏱ ${timeLeft}s`;
+  timer=setInterval(()=>{
+    timeLeft--; 
+    document.getElementById("quiz-timer").textContent=`⏱ ${timeLeft}s`;
+    if(timeLeft<=0){ clearInterval(timer); endQuiz(); }
+  },1000);
+}
+
+// ✅ Single Clean endQuiz()
+function endQuiz(){
+  clearInterval(timer);
+  document.getElementById("quiz-engine").classList.add("hidden");
+  document.getElementById("quiz-result").classList.remove("hidden");
+
+  let totalQ = questionBank[currentQuiz].length;
+  let maxRP = 100;
+  let rpEarned = Math.round((score / totalQ) * maxRP);
+
+  document.getElementById("final-score").textContent = `${score}/${totalQ}`;
+  document.getElementById("earned-rp").textContent = `🏆 Rank Points Earned: ${rpEarned} RP`;
+
+  // Save Attempt
+  saveQuizAttempt(currentQuiz, score, totalQ, rpEarned);
+
+  // Update Student Leaderboard Data
+  if(typeof updateStudentRP === "function"){
+    updateStudentRP(rpEarned);
+  }
+}
+
+// Save Attempts
+function saveQuizAttempt(quiz, score, totalQ, rp){
+  let attempts=JSON.parse(localStorage.getItem("quizAttempts")||"[]");
+  attempts.push({quiz,score,totalQ,rp,ts:new Date().toLocaleString()});
+  localStorage.setItem("quizAttempts",JSON.stringify(attempts));
+}
+
+function restartQuiz(){
+  document.getElementById("quiz-result").classList.add("hidden");
+  document.getElementById("category-section").classList.remove("hidden");
+  document.getElementById("quiz-container").classList.remove("hidden");
+}
+</script>
 </body>
-
 </html>
