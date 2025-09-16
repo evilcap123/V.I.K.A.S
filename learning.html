@@ -1,65 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>V.I.K.A.S - Learning Hub</title>
-<link rel="icon" type="image/x-icon" href="/static/favicon.ico">
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>V.I.K.A.S - Learning Hub</title>
+  <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
 
-<style>
-  body {
-    background: linear-gradient(135deg, #e6f0ff 0%, #ffffff 100%);
-    font-family: 'Inter', sans-serif;
-  }
+  <!-- Tailwind & AOS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
 
-  /* Sidebar */
-  .sidebar a { 
-    transition: all 0.3s ease; 
-    display: flex; align-items: center; gap: 10px;
-    padding: 0.6rem 1rem; border-radius: 0.5rem;
-  }
-  .sidebar a:hover { 
-    background: rgba(255,255,255,0.1); 
-    transform: translateX(6px); 
-  }
-  .sidebar a.active { 
-    background: rgba(255,255,255,0.2); 
-    font-weight: 600;
-  }
+  <style>
+    body {
+      background: linear-gradient(135deg, #e6f0ff 0%, #ffffff 100%);
+      font-family: 'Inter', sans-serif;
+    }
 
-  /* Subject Cards */
-  .subject-card { 
-    transition: all 0.35s ease; 
-    cursor: pointer; 
-    border: 1px solid rgba(0,0,0,0.05);
-  }
-  .subject-card:hover { 
-    transform: translateY(-6px) scale(1.03); 
-    box-shadow: 0 8px 25px rgba(0,0,0,0.12); 
-  }
+    .sidebar a { 
+      transition: all 0.3s ease; 
+      display: flex; align-items: center; gap: 10px;
+      padding: 0.6rem 1rem; border-radius: 0.5rem;
+    }
+    .sidebar a:hover { 
+      background: rgba(255,255,255,0.1); 
+      transform: translateX(6px); 
+    }
+    .sidebar a.active { 
+      background: rgba(255,255,255,0.2); 
+      font-weight: 600;
+    }
 
-  /* FAB */
-  #fab { transition: transform 0.3s ease; }
-  #fab:hover { transform: scale(1.2) rotate(90deg); }
+    .subject-card { 
+      transition: all 0.35s ease; 
+      cursor: pointer; 
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+    .subject-card:hover { 
+      transform: translateY(-6px) scale(1.03); 
+      box-shadow: 0 8px 25px rgba(0,0,0,0.12); 
+    }
 
-  /* Accordion */
-  .accordion-content { 
-    max-height: 0; 
-    overflow: hidden; 
-    transition: max-height 0.5s ease, padding 0.3s ease; 
-  }
-  .accordion-open .accordion-content { 
-    padding: 0.5rem 0; 
-  }
+    .accordion-content { 
+      max-height: 0; 
+      overflow: hidden; 
+      transition: max-height 0.5s ease, padding 0.3s ease; 
+    }
+    .accordion-open .accordion-content { 
+      padding: 0.5rem 0; 
+    }
 
-  /* SPA fade */
-  .page-content { transition: opacity 0.5s; opacity: 1; }
-  .page-hidden { opacity: 0; pointer-events: none; }
-</style>
+    /* Hindi symbol */
+    .hindi-symbol {
+      font-weight: bold;
+      font-size: 1.5rem;
+      color: #d97706; /* amber */
+    }
+
+    /* Microscope icon */
+    .microscope-icon {
+      width: 32px;
+      height: 32px;
+      fill: #16a34a;
+      display: inline-block;
+    }
+
+    /* Video Modal */
+    .modal {
+      display: none;
+    }
+    .modal.active {
+      display: flex;
+    }
+  </style>
 </head>
 <body>
 
@@ -69,15 +83,15 @@
   <div class="sidebar w-full md:w-64 bg-gradient-to-b from-blue-800 to-purple-900 text-white flex flex-col p-4">
     <h2 class="text-2xl font-bold mb-6">V.I.K.A.S</h2>
     <nav class="flex flex-col space-y-2">
-      <a href="dashboard.html" class="sidebar-link" data-page="dashboard.html"><i data-feather="home"></i> Dashboard</a>
-      <a href="leaderboard.html" class="sidebar-link" data-page="leaderboard.html"><i data-feather="award"></i> Leaderboard</a>
-      <a href="learning.html" class="sidebar-link active" data-page="learning.html"><i data-feather="book"></i> Learning</a>
-      <a href="quiz.html" class="sidebar-link" data-page="quiz.html"><i data-feather="edit"></i> Quizzes</a>
+      <a href="dashboard.html"><i data-feather="home"></i> Dashboard</a>
+      <a href="leaderboard.html"><i data-feather="award"></i> Leaderboard</a>
+      <a href="learning.html" class="active"><i data-feather="book"></i> Learning</a>
+      <a href="quiz.html"><i data-feather="edit"></i> Quizzes</a>
     </nav>
   </div>
 
   <!-- Main Content -->
-  <div class="flex-1 p-6 overflow-y-auto page-content">
+  <div class="flex-1 p-6 overflow-y-auto">
 
     <!-- Header -->
     <header class="shadow-sm rounded-xl mb-6 p-4 flex justify-between items-center bg-white sticky top-0 z-10">
@@ -88,133 +102,311 @@
     </header>
 
     <!-- Subject Cards -->
-    <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
       <template id="subject-card-template">
-        <div class="subject-card bg-white rounded-lg shadow-md p-6 transform" data-aos="fade-up">
-          <i data-feather="book-open" class="w-8 h-8 text-blue-600 mb-4"></i>
+        <div class="subject-card bg-white rounded-lg shadow-md p-6 transform text-center" data-aos="fade-up">
+          <div class="subject-icon mb-3"></div>
           <h3 class="font-semibold text-lg text-gray-800">Subject Name</h3>
         </div>
       </template>
     </section>
 
     <!-- Featured Video -->
-    <div class="bg-white rounded-xl shadow-md p-6 flex flex-col md:flex-row gap-6 items-center mt-10" data-aos="fade-up">
+    <div id="featured-video" class="bg-white rounded-xl shadow-md p-6 flex flex-col md:flex-row gap-6 items-center mt-10 hidden" data-aos="fade-up">
       <div class="w-full md:w-2/3 aspect-w-16 aspect-h-9 bg-gray-200 rounded-lg overflow-hidden relative group">
-        <img src="https://source.unsplash.com/featured/?education" alt="Featured Lesson" loading="lazy"
-          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+        <img src="https://source.unsplash.com/featured/?education" alt="Featured Lesson" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
         <button class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 hover:bg-opacity-60 rounded-lg transition">
           <i data-feather="play-circle" class="w-14 h-14 text-white"></i>
         </button>
       </div>
       <div class="md:w-1/3 space-y-3">
-        <h3 class="text-xl font-bold">Understanding Fractions</h3>
-        <p class="text-gray-600">An interactive session on how fractions work in everyday life, simplified for better grasp.</p>
+        <h3 id="featured-title" class="text-xl font-bold">Featured Lesson</h3>
+        <p id="featured-desc" class="text-gray-600">Description will appear here.</p>
         <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow">Start Learning</button>
       </div>
     </div>
 
     <!-- Accordion Chapters -->
     <div class="bg-white rounded-xl shadow-md p-6 mt-10" data-aos="fade-up">
-      <h3 class="text-xl font-semibold mb-4">Mathematics - Class 5</h3>
-      <div id="accordion">
-        <template id="chapter-template">
-          <div class="border-b border-gray-200">
-            <button class="w-full text-left py-3 flex justify-between items-center font-medium hover:text-blue-600 transition">
-              <span>Chapter Title</span>
-              <i data-feather="chevron-down" class="w-5 h-5 transition-transform"></i>
-            </button>
-            <div class="accordion-content">
-              <ul class="pl-4 py-2 space-y-2">
-                <li class="flex justify-between cursor-pointer hover:bg-gray-100 rounded p-2 transition">
-                  <span class="flex items-center"><i data-feather="play-circle" class="w-4 h-4 text-blue-500 mr-2"></i> Video Title</span>
-                  <span class="text-sm text-gray-500">Duration</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </template>
-      </div>
+      <h3 id="accordion-title" class="text-xl font-semibold mb-4">Select a Subject</h3>
+      <div id="accordion"></div>
     </div>
 
   </div>
 </div>
 
-<!-- FAB -->
-<button id="fab" class="fixed bottom-6 right-6 bg-blue-600 text-white rounded-full p-4 shadow-lg hover:bg-blue-700 animate-bounce" aria-label="Add New Content">
-  <i data-feather="plus" class="w-6 h-6"></i>
-</button>
+<!-- 🎥 Video Modal -->
+<div id="video-modal" class="modal fixed inset-0 bg-black bg-opacity-75 items-center justify-center z-50">
+  <div class="bg-white rounded-xl shadow-lg w-11/12 md:w-3/4 lg:w-1/2 overflow-hidden">
+    <div class="flex justify-between items-center p-4 border-b">
+      <h3 id="modal-title" class="font-semibold text-lg">Video Lesson</h3>
+      <button id="close-modal" class="text-gray-600 hover:text-red-600">
+        <i data-feather="x" class="w-6 h-6"></i>
+      </button>
+    </div>
+    <div class="p-4">
+      <video id="modal-video" class="w-full rounded-lg" controls>
+        <source id="modal-source" src="" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  </div>
+</div>
 
 <script>
 feather.replace();
 AOS.init({ once: true });
 
-// Accordion
-document.addEventListener("click", e => {
-  if (e.target.closest("#accordion button")) {
-    const btn = e.target.closest("button");
-    const wrapper = btn.parentElement;
-    const content = btn.nextElementSibling;
-    const icon = btn.querySelector("i");
+// ✅ Get current student
+const currentStudent = JSON.parse(localStorage.getItem("current-student")) 
+                    || JSON.parse(sessionStorage.getItem("current-student"));
+if (!currentStudent) {
+  window.location.href = "index.html";
+}
+const studentClass = currentStudent.class;
 
-    const isOpen = wrapper.classList.contains("accordion-open");
-    document.querySelectorAll("#accordion .accordion-open").forEach(el => {
-      el.classList.remove("accordion-open");
-      el.querySelector(".accordion-content").style.maxHeight = null;
-      el.querySelector("i").classList.remove("rotate-180");
-    });
+// 📚 Dataset with classes 1–6
+const chaptersData = {
+  Mathematics: {
+    classes: {
+      "1": { featured:{title:"Numbers 1–10",desc:"Learn counting."}, chapters:[{title:"Counting",lessons:[{type:"video",title:"Count Objects",link:"videos/class1_math_count.mp4"}]}]},
+      "2": { featured:{title:"Addition Basics",desc:"Learn simple addition."}, chapters:[{title:"Addition",lessons:[{type:"video",title:"Adding Small Numbers",link:"videos/class2_math_add.mp4"}]}]},
+      "3": { featured:{title:"Subtraction Basics",desc:"Learn subtraction."}, chapters:[{title:"Subtraction",lessons:[{type:"video",title:"Subtracting Numbers",link:"videos/class3_math_sub.mp4"}]}]},
+      "4": { featured:{title:"Multiplication Intro",desc:"Times tables fun."}, chapters:[{title:"Multiplication",lessons:[{type:"video",title:"Times Tables",link:"videos/class4_math_mul.mp4"}]}]},
+      "5":
+       { featured:{title:"Shapes ",desc:"Understand Shapes."},
+        chapters:[{
+        title:"Shapes",
+        lessons:[
+        {
+        type:"video",
+        title:"Intro to Shapes",
+        link:"videos/class5_math_shapes_pt1.mp4"
+      },
+      {
+        type:"video",
+        title:"Types of Shapes",
+        link:"videos/class5_math_shapes_pt2.mp4"
+      }
+    ]}]},
+      "6": { featured:{title:"Geometry Basics",desc:"Shapes and figures."}, chapters:[{title:"Geometry",lessons:[{type:"video",title:"Intro to Geometry",link:"videos/class6_math_geom.mp4"}]}]}
+    }
+  },
+  Science: {
+    classes: {
+      "1": { featured:{title:"Living Things",desc:"Basics of life."}, chapters:[{title:"Living Things",lessons:[{type:"video",title:"Intro to Living",link:"videos/class1_sci_living.mp4"}]}]},
+      "2": { featured:{title:"Plants Around Us",desc:"Learn about plants."}, chapters:[{title:"Plants",lessons:[{type:"video",title:"Parts of Plants",link:"videos/class2_sci_plants.mp4"}]}]},
+      "3": { featured:{title:"The Human Body",desc:"Explore body parts."}, chapters:[{title:"Body Parts",lessons:[{type:"video",title:"Intro to Body",link:"videos/class3_sci_body.mp4"}]}]},
+      "4": { featured:{title:"Water",desc:"Importance of water."}, chapters:[{title:"Water",lessons:[{type:"video",title:"Uses of Water",link:"videos/class4_sci_water.mp4"}]}]},
+      "5": { 
+  featured:{title:"Super Senses",desc:"Learn about Animal Senses."},
+  chapters:[{
+    title:"Super Senses",
+    lessons:[
+      {
+        type:"video",
+        title:"How did the ant recognise a Friend",
+        link:"videos/class5_sci_superSenses_pt1.mp4"
+      },
+      {
+        type:"video",
+        title:"Types of Animal Senses",
+        link:"videos/class5_sci_superSenses_pt2.mp4"
+      }
+    ]
+  }]
+},
 
-    if (!isOpen) {
-      wrapper.classList.add("accordion-open");
-      content.style.maxHeight = content.scrollHeight + "px";
-      icon.classList.add("rotate-180");
+       
+      "6": { featured:{title:"Food and Components",desc:"Nutrients and diet."}, chapters:[{title:"Food and Components",lessons:[{type:"video",title:"Food Components",link:"videos/class6_sci_food.mp4"}]},{title:"Plants",lessons:[{type:"video",title:"Parts of Plants",link:"videos/class6_sci_plants.mp4"}]}]}
+    }
+  },
+  English: {
+    classes: {
+      "1": { featured:{title:"Alphabet",desc:"Learn A–Z."}, chapters:[{title:"Alphabet",lessons:[{type:"video",title:"ABC Song",link:"videos/class1_eng_abc.mp4"}]}]},
+      "2": { featured:{title:"Simple Words",desc:"Form words."}, chapters:[{title:"Words",lessons:[{type:"video",title:"Basic Words",link:"videos/class2_eng_words.mp4"}]}]},
+      "3": { featured:{title:"Sentences",desc:"Form sentences."}, chapters:[{title:"Sentences",lessons:[{type:"video",title:"Making Sentences",link:"videos/class3_eng_sent.mp4"}]}]},
+      "4": { featured:{title:"Grammar Basics",desc:"Nouns & verbs."}, chapters:[{title:"Grammar",lessons:[{type:"video",title:"Nouns & Verbs",link:"videos/class4_eng_gram.mp4"}]}]},
+      "5": { 
+  featured:{title:"Ice Cream Man",desc:"Ice Cream Man."},
+  chapters:[
+    {
+      title:"Ice Cream Man",
+      lessons:[
+        {
+          type:"video",
+          title:"Ice Cream Man",
+          link:"videos/class5_eng_icecream_man.mp4"
+        }
+      ]
+    },
+    {
+      title:"Wonderfull Waste",
+      lessons:[
+        {
+          type:"video",
+          title:"Wonderfull Waste",
+          link:"videos/class5_eng_wonderful_waste_.mp4"
+        }
+      ]
+    }
+  ]
+},
+
+      "6": { featured:{title:"Writing",desc:"Creative writing."}, chapters:[{title:"Writing",lessons:[{type:"video",title:"Write a Paragraph",link:"videos/class6_eng_write.mp4"}]}]}
+    }
+  },
+  Hindi: {
+    classes: {
+      "1": { featured:{title:"स्वर",desc:"हिंदी स्वर सीखें।"}, chapters:[{title:"स्वर",lessons:[{type:"video",title:"स्वर",link:"videos/class1_hindi_swar.mp4"}]}]},
+      "2": { featured:{title:"व्यंजन",desc:"हिंदी व्यंजन।"}, chapters:[{title:"व्यंजन",lessons:[{type:"video",title:"व्यंजन",link:"videos/class2_hindi_vyanjan.mp4"}]}]},
+      "3": { featured:{title:"शब्द",desc:"शब्द बनाना।"}, chapters:[{title:"शब्द",lessons:[{type:"video",title:"शब्द",link:"videos/class3_hindi_words.mp4"}]}]},
+      "4": { featured:{title:"वाक्य",desc:"वाक्य बनाना।"}, chapters:[{title:"वाक्य",lessons:[{type:"video",title:"वाक्य",link:"videos/class4_hindi_sent.mp4"}]}]},
+      "5":
+       { featured:{title:"कहानी",desc:"कहानी पढ़ें।"},
+        chapters:[{
+        title:"राख की रस्सी",
+        lessons:[
+        {type:"video",
+        title:"राख की रस्सी",
+        link:"videos/class5_hin_raakh_ki_rassi_.mp4"}
+      ]}]},
+      "6": { featured:{title:"निबंध",desc:"निबंध लेखन।"}, chapters:[{title:"निबंध",lessons:[{type:"video",title:"निबंध",link:"videos/class6_hindi_essay.mp4"}]}]}
+    }
+  },
+  "Social Science": {
+    classes: {
+      "1": { featured:{title:"My Family",desc:"Learn about family."}, chapters:[{title:"Family",lessons:[{type:"video",title:"About My Family",link:"videos/class1_ss_family.mp4"}]}]},
+      "2": { featured:{title:"Our Neighbourhood",desc:"Know your area."}, chapters:[{title:"Neighbourhood",lessons:[{type:"video",title:"Around Us",link:"videos/class2_ss_neigh.mp4"}]}]},
+      "3": { featured:{title:"Transport",desc:"Modes of transport."}, chapters:[{title:"Transport",lessons:[{type:"video",title:"Types of Transport",link:"videos/class3_ss_transport.mp4"}]}]},
+      "4": { featured:{title:"Government",desc:"Basics of govt."}, chapters:[{title:"Government",lessons:[{type:"video",title:"What is Govt?",link:"videos/class4_ss_govt.mp4"}]}]},
+      "5": 
+      { featured:{title:"History",desc:"Past & present."},
+       chapters:[
+       {
+        title:"History",
+        lessons:[
+          {type:"video",
+          title:"The United Nation",
+          link:"videos/class5_ssc_hist_ch1.mp4"}
+        ]
+        },
+        {
+          title:"Civis",
+          lessons:[
+          {type:"video",
+          title:"Recording and communicating",
+          link:"videos/class5_ssc_civics_ch1.mp4"}
+        ]
+        },
+        {
+          title:"Geography",
+          lessons:[
+          {type:"video",
+          title:"Our Globe",
+          link:"videos/class5_ssc_geo_ch1.mp4"}
+        ]
+        }
+        ]},
+      "6": { featured:{title:"Geography",desc:"Maps & globes."}, chapters:[{title:"Maps",lessons:[{type:"video",title:"Intro to Maps",link:"videos/class6_ss_maps.mp4"}]}]}
     }
   }
-});
+};
 
-// Populate subjects
+// Subject cards
 const subjects = [
-  { icon: 'book-open', title: 'Mathematics' },
-  { icon: 'flask', title: 'Science' },
-  { icon: 'book', title: 'English' },
-  { icon: 'map', title: 'Geography' },
-  { icon: 'globe', title: 'History' },
-  { icon: 'code', title: 'Computer Science' }
+  { title: 'Mathematics', icon: '<i data-feather="book-open" class="w-8 h-8 text-blue-600"></i>' },
+  { title: 'Science', icon: `
+    <svg class="microscope-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <path d="M6 22h12v-2H6v2zm10-11.5V4h-2V2h-4v2H8v6.5c-1.2.8-2 2.1-2 3.5a4 4 0 0 0 8 0c0-1.4-.8-2.7-2-3.5z"/>
+    </svg>` },
+  { title: 'Social Science', icon: '<i data-feather="globe" class="w-8 h-8 text-purple-600"></i>' },
+  { title: 'English', icon: '<i data-feather="book" class="w-8 h-8 text-red-600"></i>' },
+  { title: 'Hindi', icon: '<span class="hindi-symbol">अ</span>' }
 ];
-const template = document.getElementById('subject-card-template');
+
+// Render subject cards
 const section = document.querySelector('section.grid');
+const template = document.getElementById('subject-card-template');
 subjects.forEach((s,i)=>{
   const clone = template.content.cloneNode(true);
-  clone.querySelector('i').setAttribute('data-feather', s.icon);
+  clone.querySelector('.subject-icon').innerHTML = s.icon;
   clone.querySelector('h3').textContent = s.title;
-  clone.querySelector('div').setAttribute('data-aos-delay', 100*(i+1));
+  const card = clone.querySelector('div');
+  card.setAttribute('data-aos-delay', 100*(i+1));
+  card.addEventListener('click', ()=> loadSubject(s.title));
   section.appendChild(clone);
 });
 feather.replace();
 
-// SPA Navigation
-document.querySelectorAll('.sidebar-link').forEach(link=>{
-  link.addEventListener('click', e=>{
-    e.preventDefault();
-    const url = link.getAttribute('data-page');
-    loadPage(url);
-  });
-});
+// Load subject content
+function loadSubject(subject) {
+  const data = chaptersData[subject]?.classes?.[studentClass];
+  if (!data) {
+    alert(`No content for Class ${studentClass} in ${subject}.`);
+    return;
+  }
 
-function loadPage(url){
-  const content = document.querySelector('.page-content');
-  content.classList.add('page-hidden');
-  setTimeout(()=>{
-    fetch(url).then(res=>res.text()).then(html=>{
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(html, 'text/html');
-      const newContent = doc.querySelector('.page-content');
-      content.innerHTML = newContent.innerHTML;
-      content.classList.remove('page-hidden');
-      feather.replace();
-      AOS.refresh();
+  document.getElementById("featured-video").classList.remove("hidden");
+  document.getElementById("featured-title").textContent = data.featured.title;
+  document.getElementById("featured-desc").textContent = data.featured.desc;
+
+  document.getElementById("accordion-title").textContent = subject;
+  const accordion = document.getElementById("accordion");
+  accordion.innerHTML = "";
+
+  data.chapters.forEach(ch=>{
+    const wrapper = document.createElement("div");
+    wrapper.className = "border-b border-gray-200";
+
+    const btn = document.createElement("button");
+    btn.className = "w-full flex justify-between items-center py-3 text-left font-medium text-gray-800 hover:text-blue-600";
+    btn.innerHTML = `<span>${ch.title}</span><i data-feather="chevron-down"></i>`;
+
+    const content = document.createElement("div");
+    content.className = "accordion-content pl-4 space-y-2";
+    ch.lessons.forEach(lesson=>{
+      const l = document.createElement("div");
+      l.className = "flex items-center space-x-2 cursor-pointer text-gray-700 hover:text-blue-600";
+      l.innerHTML = `<i data-feather="${lesson.type==='video'?'video':'file-text'}"></i><span>${lesson.title}</span>`;
+      if(lesson.type==="video"){
+        l.addEventListener("click",()=> openVideoModal(lesson.title,lesson.link));
+      }
+      content.appendChild(l);
     });
-  }, 400);
+
+    btn.addEventListener("click",()=>{
+      const isOpen = wrapper.classList.contains("accordion-open");
+      document.querySelectorAll("#accordion > div").forEach(div=>{
+        div.classList.remove("accordion-open");
+        div.querySelector(".accordion-content").style.maxHeight = null;
+      });
+      if(!isOpen){
+        wrapper.classList.add("accordion-open");
+        content.style.maxHeight = content.scrollHeight + "px";
+      }
+      feather.replace();
+    });
+
+    wrapper.appendChild(btn);
+    wrapper.appendChild(content);
+    accordion.appendChild(wrapper);
+  });
+
+  feather.replace();
 }
+
+// Video Modal
+function openVideoModal(title,src){
+  document.getElementById("modal-title").textContent = title;
+  document.getElementById("modal-source").src = src;
+  document.getElementById("modal-video").load();
+  document.getElementById("video-modal").classList.add("active");
+}
+document.getElementById("close-modal").addEventListener("click",()=>{
+  document.getElementById("video-modal").classList.remove("active");
+  const v=document.getElementById("modal-video"); v.pause();
+});
 </script>
 </body>
 </html>
