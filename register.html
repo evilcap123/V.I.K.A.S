@@ -1,193 +1,218 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>V.I.K.A.S - Quizzes</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>V.I.K.A.S - Register</title>
+  <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"/>
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.globe.min.js"></script>
   <style>
-    body { background: linear-gradient(135deg,#e0f7fa,#fce4ec); font-family: 'Inter',sans-serif; }
-    .quiz-card:hover { transform: translateY(-5px) scale(1.02); transition: all .3s ease; }
+    #vanta-bg {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: -1;
+    }
+    .register-card {
+      backdrop-filter: blur(10px);
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .input-field {
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    .input-field:focus {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+    select.input-field {
+      background-color: rgba(0, 0, 0, 0.6);
+      color: white;
+    }
+    select.input-field option {
+      background-color: white;
+      color: black;
+    }
+    .error-message {
+      color: #ff6b6b;
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+    }
   </style>
 </head>
-<body>
-<div class="flex flex-col md:flex-row min-h-screen">
+<body class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-900 to-purple-900 text-white">
+  <div id="vanta-bg"></div>
   
-  <!-- Sidebar -->
-  <div class="w-full md:w-64 bg-gradient-to-b from-blue-800 to-purple-900 text-white flex flex-col p-4">
-    <h2 class="text-2xl font-bold mb-6">V.I.K.A.S</h2>
-    <nav class="flex flex-col space-y-3">
-      <a href="dashboard.html" class="hover:bg-white/20 px-3 py-2 rounded flex items-center space-x-2"><i data-feather="home"></i><span>Dashboard</span></a>
-      <a href="leaderboard.html" class="hover:bg-white/20 px-3 py-2 rounded flex items-center space-x-2"><i data-feather="award"></i><span>Leaderboard</span></a>
-      <a href="learning.html" class="hover:bg-white/20 px-3 py-2 rounded flex items-center space-x-2"><i data-feather="book"></i><span>Learning</span></a>
-      <a href="quiz.html" class="bg-white/20 px-3 py-2 rounded flex items-center space-x-2"><i data-feather="edit"></i><span>Quizzes</span></a>
-    </nav>
+  <div class="register-card rounded-2xl p-8 w-full max-w-md shadow-2xl" data-aos="zoom-in">
+    <div class="text-center mb-8">
+      <h1 class="text-4xl font-bold mb-2">V.I.K.A.S</h1>
+      <p class="text-blue-200">Create Your Student Account</p>
+    </div>
+    
+    <form id="registration-form" class="space-y-4">
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label for="first-name" class="block text-sm font-medium mb-1">First Name</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <i data-feather="user" class="text-blue-300"></i>
+            </div>
+            <input type="text" id="first-name" required class="input-field pl-10 w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition" placeholder="First name">
+          </div>
+        </div>
+        <div>
+          <label for="last-name" class="block text-sm font-medium mb-1">Last Name</label>
+          <input type="text" id="last-name" required class="input-field w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition" placeholder="Last name">
+        </div>
+      </div>
+
+      <div>
+        <label for="email" class="block text-sm font-medium mb-1">Email</label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <i data-feather="mail" class="text-blue-300"></i>
+          </div>
+          <input type="email" id="email" required class="input-field pl-10 w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition" placeholder="student@example.com">
+        </div>
+      </div>
+
+      <div>
+        <label for="username" class="block text-sm font-medium mb-1">Username</label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <i data-feather="at-sign" class="text-blue-300"></i>
+          </div>
+          <input type="text" id="username" required class="input-field pl-10 w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition" placeholder="Choose username">
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label for="password" class="block text-sm font-medium mb-1">Password</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <i data-feather="lock" class="text-blue-300"></i>
+            </div>
+            <input type="password" id="password" required minlength="6" class="input-field pl-10 w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition" placeholder="Create password">
+          </div>
+        </div>
+        <div>
+          <label for="confirm-password" class="block text-sm font-medium mb-1">Confirm</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <i data-feather="lock" class="text-blue-300"></i>
+            </div>
+            <input type="password" id="confirm-password" required class="input-field pl-10 w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition" placeholder="Confirm password">
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <label for="class" class="block text-sm font-medium mb-1">Class/Grade</label>
+        <select id="class" required class="input-field w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+          <option value="" disabled selected>Select your class</option>
+          <option value="1">Class 1</option>
+          <option value="2">Class 2</option>
+          <option value="3">Class 3</option>
+          <option value="4">Class 4</option>
+          <option value="5">Class 5</option>
+          <option value="6">Class 6</option>
+        </select>
+      </div>
+
+      <div class="flex items-start">
+        <div class="flex items-center h-5">
+          <input id="terms" type="checkbox" required class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+        </div>
+        <div class="ml-3 text-sm">
+          <label for="terms" class="text-blue-200">I agree to the 
+            <a href="#" class="text-white hover:text-blue-200 underline">Terms of Service</a> and 
+            <a href="#" class="text-white hover:text-blue-200 underline">Privacy Policy</a>
+          </label>
+        </div>
+      </div>
+      
+      <div id="error-container"></div>
+
+      <button type="submit" class="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white py-3 px-4 rounded-lg font-medium shadow-lg transition duration-300 transform hover:scale-105">
+        Create Account
+      </button>
+    </form>
+
+    <div class="mt-6 text-center">
+      <p class="text-sm text-blue-200">
+        Already have an account? 
+        <a href="index.html" class="font-medium text-white hover:text-blue-200">Sign in here</a>
+      </p>
+    </div>
   </div>
 
-  <!-- Main Content -->
-  <div class="flex-1 p-6 overflow-y-auto">
-    <header class="bg-white shadow-md rounded-xl mb-6 p-4 flex justify-between items-center">
-      <h2 class="text-xl font-semibold text-gray-800">Quiz Center</h2>
-      <button class="p-2 rounded-full bg-blue-100 text-blue-600 hover:bg-blue-200"><i data-feather="message-square"></i></button>
-    </header>
+  <script>
+    document.getElementById('registration-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const errorContainer = document.getElementById('error-container');
+      errorContainer.innerHTML = ""; // clear old errors
 
-    <!-- Categories -->
-    <div class="mb-8" id="category-section">
-      <h3 class="text-lg font-semibold text-gray-800 mb-4">Select Category</h3>
-      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
-        <button onclick="showCategory('Math')" class="py-3 px-4 bg-white rounded-lg shadow text-blue-600 font-medium flex flex-col items-center"><i data-feather="plus-circle"></i>Math</button>
-        <button onclick="showCategory('Science')" class="py-3 px-4 bg-white rounded-lg shadow text-green-600 font-medium flex flex-col items-center"><i data-feather="plus-circle"></i>Science</button>
-        <button onclick="showCategory('English')" class="py-3 px-4 bg-white rounded-lg shadow text-purple-600 font-medium flex flex-col items-center"><i data-feather="plus-circle"></i>English</button>
-      </div>
-    </div>
+      const studentData = {
+        firstName: document.getElementById('first-name').value.trim(),
+        lastName: document.getElementById('last-name').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        username: document.getElementById('username').value.trim(),
+        password: document.getElementById('password').value,
+        class: document.getElementById('class').value,
+        registrationDate: new Date().toISOString(),
+        rp: 0,
+        tier: 'Bronze',
+        completedQuizzes: [],
+        watchedVideos: []
+      };
 
-    <!-- Quiz List -->
-    <div id="quiz-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+      if (studentData.password !== document.getElementById('confirm-password').value) {
+        showError("Passwords do not match!");
+        return;
+      }
 
-    <!-- Quiz Engine -->
-    <div id="quiz-engine" class="hidden bg-white rounded-xl shadow-md p-6" data-aos="fade-up">
-      <h3 id="quiz-title" class="text-lg font-semibold mb-4"></h3>
-      <div id="quiz-question" class="text-xl font-medium mb-6"></div>
-      <div id="quiz-options" class="space-y-3"></div>
-      <div class="mt-6 flex justify-between items-center">
-        <span id="quiz-progress" class="text-gray-500 text-sm"></span>
-        <span id="quiz-timer" class="font-semibold text-red-600"></span>
-        <button id="next-btn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg hidden">Next</button>
-      </div>
-    </div>
+      const students = JSON.parse(localStorage.getItem('vikas-students')) || [];
 
-    <!-- Quiz Result -->
-    <div id="quiz-result" class="hidden bg-green-100 text-green-800 p-6 rounded-xl shadow-md text-center" data-aos="zoom-in">
-      <h3 class="text-xl font-bold mb-2">🎉 Quiz Completed!</h3>
-      <p class="mb-2">Your Score: <span id="final-score" class="font-semibold">0</span></p>
-      <p id="earned-rp" class="mb-4"></p>
-      <button onclick="restartQuiz()" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg">Retry</button>
-    </div>
-  </div>
-</div>
+      if (students.some(student => student.username === studentData.username)) {
+        showError("Username already exists!");
+        return;
+      }
 
-<script>
-AOS.init(); feather.replace();
+      students.push(studentData);
+      localStorage.setItem('vikas-students', JSON.stringify(students));
 
-// Questions DB
-const questionBank = {
-  Math: [
-    {q:"What is 25×4?", opts:["50","75","100","125"], ans:"100"},
-    {q:"12÷3 = ?", opts:["2","3","4","6"], ans:"4"}
-  ],
-  Science: [
-    {q:"Largest planet?", opts:["Earth","Mars","Jupiter","Saturn"], ans:"Jupiter"},
-    {q:"Gas for breathing?", opts:["CO2","O2","H2","N2"], ans:"O2"}
-  ],
-  English: [
-    {q:"Synonym of 'Happy'?", opts:["Sad","Joyful","Angry","Fast"], ans:"Joyful"},
-    {q:"Which is verb?", opts:["Run","Blue","Happy","Book"], ans:"Run"}
-  ]
-};
+      alert("Registration successful! You can now login.");
+      window.location.href = "index.html";
 
-let currentQuiz = "", currentQ = 0, score = 0, timer, timeLeft = 60;
+      function showError(msg) {
+        const p = document.createElement("p");
+        p.className = "error-message";
+        p.textContent = msg;
+        errorContainer.appendChild(p);
+      }
+    });
 
-// Show quizzes in category
-function showCategory(cat){
-  const container=document.getElementById("quiz-container");
-  container.innerHTML="";
-  const card=document.createElement("div");
-  card.className="quiz-card bg-white p-4 rounded-xl border";
-  card.innerHTML=`
-    <h4 class="font-bold text-lg mb-2">${cat} Basics</h4>
-    <p>${questionBank[cat].length} Questions - 1 min</p>
-    <button onclick="startQuiz('${cat}')" class="w-full mt-3 bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg">Start Quiz</button>
-  `;
-  container.appendChild(card);
-}
+    VANTA.GLOBE({
+      el: "#vanta-bg",
+      mouseControls: true,
+      touchControls: true,
+      gyroControls: false,
+      minHeight: 200.00,
+      minWidth: 200.00,
+      scale: 1.00,
+      scaleMobile: 1.00,
+      color: 0x3a86ff,
+      backgroundColor: 0x0,
+      size: 0.8
+    });
 
-// Start quiz
-function startQuiz(cat){
-  currentQuiz=cat; currentQ=0; score=0; timeLeft=60;
-  document.getElementById("category-section").classList.add("hidden");
-  document.getElementById("quiz-container").classList.add("hidden");
-  document.getElementById("quiz-engine").classList.remove("hidden");
-  document.getElementById("quiz-title").textContent=`${cat} Quiz`;
-  loadQuestion();
-  startTimer();
-}
-
-function loadQuestion(){
-  const q=questionBank[currentQuiz][currentQ];
-  document.getElementById("quiz-question").textContent=q.q;
-  const optsDiv=document.getElementById("quiz-options");
-  optsDiv.innerHTML="";
-  q.opts.forEach(opt=>{
-    const btn=document.createElement("button");
-    btn.textContent=opt;
-    btn.className="w-full text-left px-4 py-2 border rounded-lg hover:bg-blue-50";
-    btn.onclick=()=>selectAnswer(btn,opt,q.ans);
-    optsDiv.appendChild(btn);
-  });
-  document.getElementById("quiz-progress").textContent=`Question ${currentQ+1} of ${questionBank[currentQuiz].length}`;
-}
-
-function selectAnswer(btn,selected,correct){
-  [...document.getElementById("quiz-options").children].forEach(b=>b.disabled=true);
-  if(selected===correct){ btn.classList.add("bg-green-100"); score++; }
-  else{ btn.classList.add("bg-red-100"); }
-  document.getElementById("next-btn").classList.remove("hidden");
-}
-
-document.getElementById("next-btn").addEventListener("click",()=>{
-  currentQ++;
-  if(currentQ<questionBank[currentQuiz].length){
-    document.getElementById("next-btn").classList.add("hidden");
-    loadQuestion();
-  }else{ endQuiz(); }
-});
-
-function startTimer(){
-  document.getElementById("quiz-timer").textContent=`⏱ ${timeLeft}s`;
-  timer=setInterval(()=>{
-    timeLeft--; 
-    document.getElementById("quiz-timer").textContent=`⏱ ${timeLeft}s`;
-    if(timeLeft<=0){ clearInterval(timer); endQuiz(); }
-  },1000);
-}
-
-// ✅ Single Clean endQuiz()
-function endQuiz(){
-  clearInterval(timer);
-  document.getElementById("quiz-engine").classList.add("hidden");
-  document.getElementById("quiz-result").classList.remove("hidden");
-
-  let totalQ = questionBank[currentQuiz].length;
-  let maxRP = 100;
-  let rpEarned = Math.round((score / totalQ) * maxRP);
-
-  document.getElementById("final-score").textContent = `${score}/${totalQ}`;
-  document.getElementById("earned-rp").textContent = `🏆 Rank Points Earned: ${rpEarned} RP`;
-
-  // Save Attempt
-  saveQuizAttempt(currentQuiz, score, totalQ, rpEarned);
-
-  // Update Student Leaderboard Data
-  if(typeof updateStudentRP === "function"){
-    updateStudentRP(rpEarned);
-  }
-}
-
-// Save Attempts
-function saveQuizAttempt(quiz, score, totalQ, rp){
-  let attempts=JSON.parse(localStorage.getItem("quizAttempts")||"[]");
-  attempts.push({quiz,score,totalQ,rp,ts:new Date().toLocaleString()});
-  localStorage.setItem("quizAttempts",JSON.stringify(attempts));
-}
-
-function restartQuiz(){
-  document.getElementById("quiz-result").classList.add("hidden");
-  document.getElementById("category-section").classList.remove("hidden");
-  document.getElementById("quiz-container").classList.remove("hidden");
-}
-</script>
+    AOS.init();
+    feather.replace();
+  </script>
 </body>
 </html>
