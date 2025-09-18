@@ -3,7 +3,9 @@ import cors from "cors";
 import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 dotenv.config();
 
@@ -11,78 +13,134 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// 📂 Setup __dirname (since ES modules don’t have it by default)
+// 📂 Setup __dirname
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// 🔑 Setup Gemini
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+// 🔗 Connect to MongoDB
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log("✅ MongoDB Connected"))
+.catch((err) => console.error("❌ Mongo Error:", err));
+
+// 🧑 Student Schema
+const studentSchema = new mongoose.Schema({
+  firstName: String,
+  lastName: String,
+  email: { type: String, unique: true },
+  username: { type: String, unique: true },
+  password: String,
+  class: String,
+  registrationDate: { type: Date, default: Date.now },
+  rp: { type: Number, default: 0 },
+  tier: { type: String, default: "Bronze" },
+  completedQuizzes: { type: [String], default: [] },
+  watchedVideos: { type: [String], default: [] }
+});
+
+const Student = mongoose.model("Student", studentSchema);
 
 /* ================================
-   ✅ Route 1: POST (Simple JSON)
+   ✅ Register
    ================================ */
-app.post("/chat", async (req, res) => {
-  const { message } = req.body;
-  if (!message) {
-    return res.status(400).json({ error: "Message is required" });
-  }
-
+app.post("/register", async (req, res) => {
   try {
-    const result = await model.generateContent(message);
-    const reply = result.response.text();
-    res.json({ reply });
-  } catch (error) {
-    console.error("Gemini API Error:", error);
-    res.status(500).json({ error: "⚠️ Could not reach Gemini API" });
+    const { firstName, lastName, email, username, password, class: studentClass } = req.body;
+
+    // check if user exists
+    const existingUser = await Student.findOne({ username });
+    if (existingUser) {
+      return res.json({ success: false, message: "⚠️ Username already exists" });
+    }
+
+    // hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newStudent = new Student({
+      firstName,
+      lastName,
+      email,
+      username,
+      password: hashedPassword,
+      class: studentClass
+    });
+
+    await newStudent.save();
+    res.json({ success: true, message: "✅ Registration successful" });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: "❌ Server error" });
   }
 });
 
 /* ================================
-   ✅ Route 2: GET (SSE Streaming)
+   ✅ Login (returns JWT)
    ================================ */
-app.get("/chat-stream", async (req, res) => {
-  const userMessage = req.query.message;
-  if (!userMessage) {
-    res.write(`data: ${JSON.stringify({ text: "⚠️ Message is required" })}\n\n`);
-    return res.end();
-  }
-
+app.post("/login", async (req, res) => {
   try {
-    const streamingResp = await model.generateContentStream(userMessage);
+    const { username, password } = req.body;
 
-    // Setup Server-Sent Events (SSE) headers
-    res.setHeader("Content-Type", "text/event-stream");
-    res.setHeader("Cache-Control", "no-cache");
-    res.setHeader("Connection", "keep-alive");
-
-    for await (const chunk of streamingResp.stream) {
-      const text = chunk.text();
-      if (text) {
-        res.write(`data: ${JSON.stringify({ text })}\n\n`);
-      }
+    const student = await Student.findOne({ username });
+    if (!student) {
+      return res.json({ success: false, message: "⚠️ User not found" });
     }
 
-    res.end();
-  } catch (error) {
-    console.error("Gemini API Error:", error);
-    res.write(`data: ${JSON.stringify({ text: "⚠️ Error: Could not reach Gemini API." })}\n\n`);
-    res.end();
+    const isMatch = await bcrypt.compare(password, student.password);
+    if (!isMatch) {
+      return res.json({ success: false, message: "❌ Invalid password" });
+    }
+
+    // create JWT
+    const token = jwt.sign(
+      { id: student._id, username: student.username },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+
+    res.json({
+      success: true,
+      token,
+      user: {
+        username: student.username,
+        email: student.email,
+        class: student.class,
+        rp: student.rp,
+        tier: student.tier,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: "❌ Server error" });
+  }
+});
+
+/* ================================
+   ✅ Protected Example
+   ================================ */
+app.get("/dashboard-data", (req, res) => {
+  const token = req.headers.authorization?.split(" ")[1];
+  if (!token) return res.status(401).json({ success: false, message: "⚠️ No token" });
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    res.json({ success: true, message: `Welcome, ${decoded.username}!` });
+  } catch (err) {
+    res.status(401).json({ success: false, message: "⚠️ Invalid/Expired token" });
   }
 });
 
 /* ================================
    ✅ Static Frontend
    ================================ */
-// Serve all files in /public (HTML, CSS, JS, images…)
 app.use(express.static(path.join(__dirname, "../public")));
-
-// Default route → load dashboard.html
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/dashboard.html"));
 });
 
-// Start Server
+// 🚀 Start Server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () =>
   console.log(`✅ Server running at http://localhost:${PORT}`)
