@@ -239,87 +239,184 @@
             </div>
         </main>
 
-        <!-- Chatbot -->
-        <div id="chatbot-panel"
-            class="fixed bottom-4 right-4 w-80 bg-white rounded-t-xl shadow-xl hidden" style="height: 500px;">
-            <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-3 rounded-t-xl flex justify-between items-center">
-                <h3 class="font-medium">VIKAS Assistant</h3>
-                <button id="chatbot-close" class="text-white hover:text-blue-200"><i data-feather="x"></i></button>
-            </div>
-            <div class="p-4 h-80 overflow-y-auto bg-gray-50">
-                <div class="flex items-start mb-4">
-                    <div class="bg-blue-100 p-2 rounded-full mr-2"><i data-feather="message-square"
-                            class="text-blue-600 w-4 h-4"></i></div>
-                    <div class="bg-white p-3 rounded-lg shadow-sm max-w-xs">
-                        <p class="text-sm">Hello! I'm your VIKAS assistant. How can I help you today?</p>
-                    </div>
-                </div>
-            </div>
-            <div class="p-3 border-t border-gray-200 flex">
-                <input type="text" placeholder="Type your message..."
-                    class="flex-1 border border-gray-300 rounded-l-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                <button class="bg-blue-500 text-white px-4 py-2 rounded-r-lg hover:bg-blue-600"><i
-                        data-feather="send" class="w-4 h-4"></i></button>
-            </div>
-        </div>
-
+        <div id="chatbot-panel" class="fixed bottom-4 right-4 w-80 bg-white rounded-t-xl shadow-xl hidden" style="height: 500px;">
+  <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-3 rounded-t-xl flex justify-between items-center">
+    <h3 class="font-medium">VIKAS Assistant</h3>
+    <button id="chatbot-close" class="text-white hover:text-blue-200"><i data-feather="x"></i></button>
+  </div>
+  <div id="chatbot-messages" class="p-4 h-80 overflow-y-auto bg-gray-50">
+    <div class="flex items-start mb-4">
+      <div class="bg-blue-100 p-2 rounded-full mr-2"><i data-feather="message-square" class="text-blue-600 w-4 h-4"></i></div>
+      <div class="bg-white p-3 rounded-lg shadow-sm max-w-xs">
+        <p class="text-sm">Hello! I'm your VIKAS assistant. How can I help you today?</p>
+      </div>
     </div>
+  </div>
+  <div class="p-3 border-t border-gray-200 flex">
+    <input id="chatbot-input" type="text" placeholder="Type your message..."
+      class="flex-1 border border-gray-300 rounded-l-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+    <button id="chatbot-send" class="bg-blue-500 text-white px-4 py-2 rounded-r-lg hover:bg-blue-600">
+      <i data-feather="send" class="w-4 h-4"></i>
+    </button>
+  </div>
+</div>
 
     <!-- Scripts -->
     <script>
-        AOS.init();
-        feather.replace();
+  AOS.init();
+  feather.replace();
 
-        // Sidebar toggle
-        const sidebar = document.getElementById("sidebar");
-        const mainContent = document.getElementById("main-content");
-        document.getElementById("toggle-sidebar").addEventListener("click", () => {
-            sidebar.classList.toggle("sidebar-collapsed");
-            sidebar.classList.toggle("sidebar-expanded");
-            mainContent.style.marginLeft = sidebar.classList.contains("sidebar-collapsed") ? "80px" : "250px";
-            feather.replace();
-        });
+  // Sidebar toggle
+  const sidebar = document.getElementById("sidebar");
+  const mainContent = document.getElementById("main-content");
+  document.getElementById("toggle-sidebar").addEventListener("click", () => {
+    sidebar.classList.toggle("sidebar-collapsed");
+    sidebar.classList.toggle("sidebar-expanded");
+    mainContent.style.marginLeft = sidebar.classList.contains("sidebar-collapsed")
+      ? "80px"
+      : "250px";
+    feather.replace();
+  });
 
-        // Logout
-        document.getElementById("logout-btn").addEventListener("click", () => {
-            localStorage.removeItem("current-student");
-            sessionStorage.removeItem("current-student");
-            window.location.href = "index.html";
-        });
+  // Logout
+  document.getElementById("logout-btn").addEventListener("click", () => {
+    localStorage.removeItem("current-student");
+    sessionStorage.removeItem("current-student");
+    window.location.href = "index.html";
+  });
 
-        // Chatbot
-        const chatbotPanel = document.getElementById("chatbot-panel");
-        document.getElementById("chatbot-toggle").addEventListener("click", () => {
-            chatbotPanel.classList.toggle("hidden");
-        });
-        document.getElementById("chatbot-close").addEventListener("click", () => {
-            chatbotPanel.classList.add("hidden");
-        });
+  // Chatbot
+  const chatbotPanel = document.getElementById("chatbot-panel");
+  const chatbotClose = document.getElementById("chatbot-close");
+  const chatbotMessages = document.getElementById("chatbot-messages");
+  const chatbotInput = document.getElementById("chatbot-input");
+  const chatbotSendBtn = document.getElementById("chatbot-send");
 
-        // Load student data
-        const student = JSON.parse(sessionStorage.getItem("current-student") || localStorage.getItem("current-student"));
-        if (student) {
-            document.getElementById("student-name").textContent = student.firstName + " " + student.lastName;
-            document.getElementById("student-class").textContent = "Class " + student.class;
-            document.getElementById("welcome-text").textContent = "Welcome back, " + student.firstName + "!";
+  document.getElementById("chatbot-toggle").addEventListener("click", () => {
+    chatbotPanel.classList.toggle("hidden");
+  });
+  chatbotClose.addEventListener("click", () => {
+    chatbotPanel.classList.add("hidden");
+  });
 
-            if (student.pfp) {
-                document.getElementById("sidebar-pfp").src = student.pfp;
-            }
+  async function getAIResponse(message) {
+    try {
+      const response = await fetch("http://localhost:5000/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message }),
+      });
+      const data = await response.json();
+      return data.reply;
+    } catch (err) {
+      return "⚠️ Could not connect to AI server.";
+    }
+  }
 
-            if (student.tier) {
-                document.getElementById("tier-badge").innerHTML = `<i data-feather="award" class="mr-2"></i><span>${student.tier} Tier</span>`;
-            }
+  function addMessage(content, sender = "user") {
+    const wrapper = document.createElement("div");
+    wrapper.classList.add("flex", "items-start", "mb-4");
 
-            if (student.rp) {
-                document.getElementById("rp-count").textContent = student.rp + " RP";
-            }
+    if (sender === "user") {
+      wrapper.classList.add("justify-end");
+      wrapper.innerHTML = `
+        <div class="bg-blue-500 text-white p-3 rounded-lg shadow-sm max-w-xs">
+          <p class="text-sm">${content}</p>
+        </div>`;
+    } else {
+      wrapper.innerHTML = `
+        <div class="bg-blue-100 p-2 rounded-full mr-2">
+          <i data-feather="message-square" class="text-blue-600 w-4 h-4"></i>
+        </div>
+        <div class="bg-white p-3 rounded-lg shadow-sm max-w-xs">
+          <p class="text-sm">${content}</p>
+        </div>`;
+    }
 
-            feather.replace();
-        } else {
-            window.location.href = "index.html";
-        }
-    </script>
+    chatbotMessages.appendChild(wrapper);
+    chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+    setTimeout(() => feather.replace(), 0); // refresh icons
+  }
+
+  async function sendMessage() {
+    const message = chatbotInput.value.trim();
+    if (!message) return;
+
+    // Show user message
+    addMessage(message, "user");
+    chatbotInput.value = "";
+
+    // Typing placeholder
+    const typingEl = document.createElement("div");
+    typingEl.classList.add("bg-white", "p-3", "rounded-lg", "shadow-sm", "max-w-xs");
+    typingEl.textContent = "VIKAS is typing...";
+    chatbotMessages.appendChild(typingEl);
+    chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+
+    // Stream response
+    const eventSource = new EventSource(
+      "http://localhost:5000/chat?message=" + encodeURIComponent(message)
+    );
+
+    let aiMessage = "";
+
+    eventSource.onmessage = (event) => {
+      const { text } = JSON.parse(event.data);
+      aiMessage += text;
+
+      // Update typingEl progressively
+      typingEl.textContent = aiMessage;
+      chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+    };
+
+    eventSource.onerror = () => {
+      eventSource.close();
+
+      // Finalize message
+      typingEl.remove();
+      addMessage(aiMessage || "⚠️ Connection lost", "ai");
+    };
+  }
+
+  chatbotSendBtn.addEventListener("click", sendMessage);
+  chatbotInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
+
+  // Load student data safely
+  const studentData =
+    sessionStorage.getItem("current-student") ||
+    localStorage.getItem("current-student");
+  const student = studentData ? JSON.parse(studentData) : null;
+
+  if (student) {
+    document.getElementById("student-name").textContent =
+      student.firstName + " " + student.lastName;
+    document.getElementById("student-class").textContent =
+      "Class " + student.class;
+    document.getElementById("welcome-text").textContent =
+      "Welcome back, " + student.firstName + "!";
+
+    if (student.pfp) {
+      document.getElementById("sidebar-pfp").src = student.pfp;
+    }
+    if (student.tier) {
+      document.getElementById("tier-badge").innerHTML = `
+        <i data-feather="award" class="mr-2"></i><span>${student.tier} Tier</span>`;
+    }
+    if (student.rp) {
+      document.getElementById("rp-count").textContent = student.rp + " RP";
+    }
+
+    feather.replace();
+  } else {
+    window.location.href = "index.html";
+  }
+</script>
+
 </body>
 
 </html>

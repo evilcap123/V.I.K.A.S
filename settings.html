@@ -74,6 +74,24 @@
         </button>
       </form>
     </section>
+
+    <!-- Danger Zone -->
+    <section class="bg-white rounded-xl shadow-lg p-6 border border-red-200 transform transition hover:shadow-xl animate-fade-in-up">
+      <h2 class="text-lg font-semibold mb-4 flex items-center gap-2 text-red-600">
+        <i data-feather="alert-triangle"></i> Danger Zone
+      </h2>
+      <p class="text-sm text-gray-600 mb-4">
+        Deleting your account will remove all your data permanently.  
+        Type your username below to enable the delete button:
+      </p>
+      <input type="text" id="confirm-username"
+        placeholder="Type your username here"
+        class="mt-1 block w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-500 focus:border-red-500 transition mb-4"/>
+      <button id="delete-account-btn" disabled
+        class="w-full bg-red-300 text-white px-4 py-2 rounded-lg shadow-md cursor-not-allowed transition">
+        Delete My Account
+      </button>
+    </section>
   </main>
 
   <!-- Toast Container -->
@@ -149,6 +167,42 @@
       student.lastName = document.getElementById("lastName").value.trim();
       saveStudent();
       showNotification("Profile info updated! 🎉", "success");
+    });
+
+    // Enable delete button only when username matches
+    const deleteBtn = document.getElementById("delete-account-btn");
+    const usernameInput = document.getElementById("confirm-username");
+
+    usernameInput.addEventListener("input", () => {
+      if (usernameInput.value.trim() === student.username) {
+        deleteBtn.disabled = false;
+        deleteBtn.className = "w-full bg-red-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-600 transform hover:scale-[1.02] transition";
+      } else {
+        deleteBtn.disabled = true;
+        deleteBtn.className = "w-full bg-red-300 text-white px-4 py-2 rounded-lg shadow-md cursor-not-allowed transition";
+      }
+    });
+
+    // Handle account deletion
+    deleteBtn.addEventListener("click", () => {
+      const confirmDelete = confirm("⚠️ Are you absolutely sure? This will permanently delete your account.");
+      if (!confirmDelete) return;
+
+      // Remove student from vikas-students
+      let students = JSON.parse(localStorage.getItem("vikas-students")) || [];
+      students = students.filter(s => s.username !== student.username);
+      localStorage.setItem("vikas-students", JSON.stringify(students));
+
+      // Clear session
+      sessionStorage.removeItem("current-student");
+      localStorage.removeItem("current-student");
+
+      showNotification("Your account has been deleted ❌", "error");
+
+      // Redirect after short delay
+      setTimeout(() => {
+        window.location.href = "index.html";
+      }, 1500);
     });
   </script>
 </body>

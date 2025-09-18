@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>V.I.K.A.S - Reset Password</title>
+  <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"/>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.globe.min.js"></script>
+  <style>
+    #vanta-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+    .card { backdrop-filter: blur(10px); background-color: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); }
+    .input-field { background-color: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.3); }
+    .input-field:focus { background-color: rgba(255, 255, 255, 0.2); }
+  </style>
+</head>
+<body class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-900 to-purple-900 text-white">
+  <div id="vanta-bg"></div>
+
+  <div class="card rounded-2xl p-8 w-full max-w-md shadow-2xl" data-aos="zoom-in">
+    <div class="text-center mb-8">
+      <h1 class="text-3xl font-bold mb-2">Reset Password</h1>
+      <p class="text-blue-200">Enter your username to reset password</p>
+    </div>
+
+    <!-- Step 1: Enter username -->
+    <form id="lookup-form" class="space-y-6">
+      <div>
+        <label for="username" class="block text-sm font-medium mb-1">Username</label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <i data-feather="user" class="text-blue-300"></i>
+          </div>
+          <input type="text" id="username" required
+            class="input-field pl-10 w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+            placeholder="Enter your username">
+        </div>
+      </div>
+      <p id="lookup-msg" class="hidden text-sm"></p>
+      <button type="submit"
+        class="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white py-3 px-4 rounded-lg font-medium shadow-lg transition duration-300 transform hover:scale-105">
+        Next
+      </button>
+    </form>
+
+    <!-- Step 2: New password (hidden initially) -->
+    <form id="reset-form" class="space-y-6 hidden mt-6">
+      <div>
+        <label for="new-password" class="block text-sm font-medium mb-1">New Password</label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <i data-feather="lock" class="text-blue-300"></i>
+          </div>
+          <input type="password" id="new-password" required minlength="6"
+            class="input-field pl-10 w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+            placeholder="Enter new password">
+        </div>
+      </div>
+      <div>
+        <label for="confirm-password" class="block text-sm font-medium mb-1">Confirm Password</label>
+        <input type="password" id="confirm-password" required
+          class="input-field w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+          placeholder="Confirm new password">
+      </div>
+      <p id="reset-msg" class="hidden text-sm"></p>
+      <button type="submit"
+        class="w-full bg-green-500 hover:bg-green-600 text-white py-3 px-4 rounded-lg font-medium shadow-lg transition duration-300 transform hover:scale-105">
+        Update Password
+      </button>
+    </form>
+
+    <div class="mt-6 text-center">
+      <a href="index.html" class="text-sm font-medium text-white hover:text-blue-200">Back to Login</a>
+    </div>
+  </div>
+
+  <script>
+    const lookupForm = document.getElementById('lookup-form');
+    const resetForm = document.getElementById('reset-form');
+    const lookupMsg = document.getElementById('lookup-msg');
+    const resetMsg = document.getElementById('reset-msg');
+    let currentUser = null;
+
+    lookupForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const username = document.getElementById('username').value.trim();
+      const students = JSON.parse(localStorage.getItem('vikas-students')) || [];
+      const found = students.find(s => s.username === username);
+
+      if (!found) {
+        lookupMsg.textContent = "❌ Username not found!";
+        lookupMsg.className = "text-red-400 text-sm mt-2";
+        lookupMsg.classList.remove("hidden");
+      } else {
+        currentUser = found;
+        lookupForm.classList.add("hidden");
+        resetForm.classList.remove("hidden");
+      }
+    });
+
+    resetForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const newPass = document.getElementById('new-password').value.trim();
+      const confirmPass = document.getElementById('confirm-password').value.trim();
+
+      if (newPass !== confirmPass) {
+        resetMsg.textContent = "⚠️ Passwords do not match!";
+        resetMsg.className = "text-red-400 text-sm mt-2";
+        resetMsg.classList.remove("hidden");
+        return;
+      }
+
+      let students = JSON.parse(localStorage.getItem('vikas-students')) || [];
+      students = students.map(s => {
+        if (s.username === currentUser.username) {
+          return { ...s, password: newPass };
+        }
+        return s;
+      });
+
+      localStorage.setItem('vikas-students', JSON.stringify(students));
+      alert("✅ Password updated successfully!");
+      window.location.href = "index.html";
+    });
+
+    VANTA.GLOBE({ el: "#vanta-bg", mouseControls: true, touchControls: true, gyroControls: false, minHeight: 200.00, minWidth: 200.00, scale: 1.00, scaleMobile: 1.00, color: 0x3a86ff, backgroundColor: 0x0, size: 0.8 });
+    AOS.init();
+    feather.replace();
+  </script>
+</body>
+</html>
