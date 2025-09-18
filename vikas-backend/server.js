@@ -11,11 +11,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-
 // 📂 Setup __dirname (since ES modules don’t have it by default)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
 
 // 🔑 Setup Gemini
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
@@ -74,19 +72,14 @@ app.get("/chat-stream", async (req, res) => {
 });
 
 /* ================================
-<<<<<<< HEAD
-   ✅ Default Route
+   ✅ Static Frontend
    ================================ */
-app.get("/", (req, res) => {
-  res.send("🚀 Gemini API Server is running! Use POST /chat or GET /chat-stream?message=Hello");
-
 // Serve all files in /public (HTML, CSS, JS, images…)
 app.use(express.static(path.join(__dirname, "public")));
 
 // Default route → load dashboard.html
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "dashboard.html"));
-
 });
 
 // Start Server
