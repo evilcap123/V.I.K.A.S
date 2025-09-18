@@ -75,11 +75,11 @@ app.get("/chat-stream", async (req, res) => {
    ✅ Static Frontend
    ================================ */
 // Serve all files in /public (HTML, CSS, JS, images…)
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "../public")));
 
 // Default route → load dashboard.html
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "dashboard.html"));
+  res.sendFile(path.join(__dirname, "../public/dashboard.html"));
 });
 
 // Start Server
