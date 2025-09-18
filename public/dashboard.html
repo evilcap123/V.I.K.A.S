@@ -301,11 +301,12 @@
 
   async function getAIResponse(message) {
     try {
-      const response = await fetch("http://localhost:5000/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message }),
-      });
+      const response = await fetch("/chat", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ message }),
+});
+
       const data = await response.json();
       return data.reply;
     } catch (err) {
@@ -355,8 +356,14 @@
 
     // Stream response
     const eventSource = new EventSource(
+<<<<<<< HEAD:dashboard.html
       "http://localhost:5000/chat-stream?message=" + encodeURIComponent(message)
     );
+=======
+  "/chat-stream?message=" + encodeURIComponent(message)
+);
+
+>>>>>>> 2aa958a (My loacl changes):public/dashboard.html
 
     let aiMessage = "";
 
@@ -374,7 +381,11 @@
 
   if (!aiMessage) {
     try {
+<<<<<<< HEAD:dashboard.html
       const response = await fetch("http://localhost:5000/chat", {
+=======
+      const response = await fetch("/chat", {
+>>>>>>> 2aa958a (My loacl changes):public/dashboard.html
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message }),

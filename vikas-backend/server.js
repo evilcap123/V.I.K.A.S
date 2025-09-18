@@ -1,6 +1,8 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 dotenv.config();
@@ -9,6 +11,13 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+<<<<<<< HEAD
+=======
+// 📂 Setup __dirname (since ES modules don’t have it by default)
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+>>>>>>> 2aa958a (My loacl changes)
 // 🔑 Setup Gemini
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
@@ -66,10 +75,21 @@ app.get("/chat-stream", async (req, res) => {
 });
 
 /* ================================
+<<<<<<< HEAD
    ✅ Default Route
    ================================ */
 app.get("/", (req, res) => {
   res.send("🚀 Gemini API Server is running! Use POST /chat or GET /chat-stream?message=Hello");
+=======
+   ✅ Static Frontend
+   ================================ */
+// Serve all files in /public (HTML, CSS, JS, images…)
+app.use(express.static(path.join(__dirname, "public")));
+
+// Default route → load dashboard.html
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "dashboard.html"));
+>>>>>>> 2aa958a (My loacl changes)
 });
 
 // Start Server
