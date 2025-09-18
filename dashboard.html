@@ -355,7 +355,7 @@
 
     // Stream response
     const eventSource = new EventSource(
-      "http://localhost:5000/chat?message=" + encodeURIComponent(message)
+      "http://localhost:5000/chat-stream?message=" + encodeURIComponent(message)
     );
 
     let aiMessage = "";
@@ -369,22 +369,36 @@
       chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
     };
 
-    eventSource.onerror = () => {
-      eventSource.close();
+  eventSource.onerror = async () => {
+  eventSource.close();
 
-      // Finalize message
-      typingEl.remove();
-      addMessage(aiMessage || "⚠️ Connection lost", "ai");
-    };
-  }
-
-  chatbotSendBtn.addEventListener("click", sendMessage);
-  chatbotInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      sendMessage();
+  if (!aiMessage) {
+    try {
+      const response = await fetch("http://localhost:5000/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message }),
+      });
+      const data = await response.json();
+      typingEl.textContent = data.reply || "⚠️ Connection lost";
+    } catch {
+      typingEl.textContent = "⚠️ Could not connect to AI server.";
     }
-  });
+  }
+};
+
+} // <-- closes sendMessage function properly
+
+
+// Event listeners
+chatbotSendBtn.addEventListener("click", sendMessage);
+chatbotInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    sendMessage();
+  }
+});
+
 
   // Load student data safely
   const studentData =
