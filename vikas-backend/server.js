@@ -9,12 +9,38 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// 🔑 Setup Gemini
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-// ✅ Streaming endpoint (SSE)
-app.get("/chat", async (req, res) => {
+/* ================================
+   ✅ Route 1: POST (Simple JSON)
+   ================================ */
+app.post("/chat", async (req, res) => {
+  const { message } = req.body;
+  if (!message) {
+    return res.status(400).json({ error: "Message is required" });
+  }
+
+  try {
+    const result = await model.generateContent(message);
+    const reply = result.response.text();
+    res.json({ reply });
+  } catch (error) {
+    console.error("Gemini API Error:", error);
+    res.status(500).json({ error: "⚠️ Could not reach Gemini API" });
+  }
+});
+
+/* ================================
+   ✅ Route 2: GET (SSE Streaming)
+   ================================ */
+app.get("/chat-stream", async (req, res) => {
   const userMessage = req.query.message;
+  if (!userMessage) {
+    res.write(`data: ${JSON.stringify({ text: "⚠️ Message is required" })}\n\n`);
+    return res.end();
+  }
 
   try {
     const streamingResp = await model.generateContentStream(userMessage);
@@ -39,6 +65,15 @@ app.get("/chat", async (req, res) => {
   }
 });
 
-app.listen(5000, () =>
-  console.log("✅ Gemini streaming server running at http://localhost:5000")
+/* ================================
+   ✅ Default Route
+   ================================ */
+app.get("/", (req, res) => {
+  res.send("🚀 Gemini API Server is running! Use POST /chat or GET /chat-stream?message=Hello");
+});
+
+// Start Server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () =>
+  console.log(`✅ Server running at http://localhost:${PORT}`)
 );
