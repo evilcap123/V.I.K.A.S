@@ -6,24 +6,26 @@ import { fileURLToPath } from "url";
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import helmet from "helmet";
+import { GoogleGenAI } from "@google/genai";
 
 dotenv.config();
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(helmet()); // 🔒 extra security
 
 // 📂 Setup __dirname
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // 🔗 Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => console.log("✅ MongoDB Connected"))
-.catch((err) => console.error("❌ Mongo Error:", err));
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => console.log("✅ MongoDB Connected"))
+  .catch((err) => console.error("❌ Mongo Error:", err));
 
 // 🧑 Student Schema
 const studentSchema = new mongoose.Schema({
@@ -37,7 +39,8 @@ const studentSchema = new mongoose.Schema({
   rp: { type: Number, default: 0 },
   tier: { type: String, default: "Bronze" },
   completedQuizzes: { type: [String], default: [] },
-  watchedVideos: { type: [String], default: [] }
+  watchedVideos: { type: [String], default: [] },
+  pfp: { type: String, default: null }, // 🖼️ profile picture
 });
 
 const Student = mongoose.model("Student", studentSchema);
@@ -47,15 +50,26 @@ const Student = mongoose.model("Student", studentSchema);
    ================================ */
 app.post("/register", async (req, res) => {
   try {
-    const { firstName, lastName, email, username, password, class: studentClass } = req.body;
+    const {
+      firstName,
+      lastName,
+      email,
+      username,
+      password,
+      class: studentClass,
+    } = req.body;
 
-    // check if user exists
-    const existingUser = await Student.findOne({ username });
+    // check if username OR email exists
+    const existingUser = await Student.findOne({
+      $or: [{ username }, { email }],
+    });
     if (existingUser) {
-      return res.json({ success: false, message: "⚠️ Username already exists" });
+      return res.json({
+        success: false,
+        message: "⚠️ Username or Email already exists",
+      });
     }
 
-    // hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newStudent = new Student({
@@ -64,13 +78,18 @@ app.post("/register", async (req, res) => {
       email,
       username,
       password: hashedPassword,
-      class: studentClass
+      class: studentClass,
     });
 
     await newStudent.save();
     res.json({ success: true, message: "✅ Registration successful" });
-
   } catch (err) {
+    if (err.code === 11000) {
+      return res.json({
+        success: false,
+        message: "⚠️ Duplicate username/email",
+      });
+    }
     console.error(err);
     res.status(500).json({ success: false, message: "❌ Server error" });
   }
@@ -84,31 +103,31 @@ app.post("/login", async (req, res) => {
     const { username, password } = req.body;
 
     const student = await Student.findOne({ username });
-    if (!student) {
+    if (!student)
       return res.json({ success: false, message: "⚠️ User not found" });
-    }
 
     const isMatch = await bcrypt.compare(password, student.password);
-    if (!isMatch) {
+    if (!isMatch)
       return res.json({ success: false, message: "❌ Invalid password" });
-    }
 
-    // create JWT
     const token = jwt.sign(
       { id: student._id, username: student.username },
       process.env.JWT_SECRET,
-      { expiresIn: "1h" }
+      { expiresIn: "7d" }
     );
 
     res.json({
       success: true,
       token,
       user: {
+        firstName: student.firstName,
+        lastName: student.lastName,
         username: student.username,
         email: student.email,
         class: student.class,
         rp: student.rp,
         tier: student.tier,
+        pfp: student.pfp,
       },
     });
   } catch (err) {
@@ -120,24 +139,42 @@ app.post("/login", async (req, res) => {
 /* ================================
    ✅ Protected Example
    ================================ */
-app.get("/dashboard-data", (req, res) => {
-  const token = req.headers.authorization?.split(" ")[1];
-  if (!token) return res.status(401).json({ success: false, message: "⚠️ No token" });
+app.get("/chat-gemini-stream", async (req, res) => {
+  const userMessage = req.query.message;
+  if (!userMessage) return res.status(400).send("Message required");
+
+  res.setHeader("Content-Type", "text/event-stream");
+  res.setHeader("Cache-Control", "no-cache");
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    res.json({ success: true, message: `Welcome, ${decoded.username}!` });
+    const stream = await ai.models.stream({
+      model: "gemini-1.5-flash",
+      contents: userMessage,
+    });
+
+    for await (const chunk of stream) {
+      res.write(`data: ${JSON.stringify({ text: chunk.text })}\n\n`);
+    }
+
+    res.write(`event: done\ndata: {}\n\n`);
+    res.end();
   } catch (err) {
-    res.status(401).json({ success: false, message: "⚠️ Invalid/Expired token" });
+    console.error("Gemini API Error:", err.message);
+    res.write(
+      `data: ${JSON.stringify({
+        text: "⚠️ Could not connect to AI server.",
+      })}\n\n`
+    );
+    res.end();
   }
 });
 
-/* ================================
-   ✅ Static Frontend
-   ================================ */
+// Serve static files
 app.use(express.static(path.join(__dirname, "../public")));
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/dashboard.html"));
+
+// Catch-all for SPA
+app.get(/.*/, (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/index.html"));
 });
 
 // 🚀 Start Server

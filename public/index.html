@@ -1,174 +1,180 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>V.I.K.A.S - Login</title>
-  <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
-  <style>
-    body {
-      margin: 0;
-      overflow: hidden;
-      font-family: 'Poppins', sans-serif;
-    }
-    .glass-card {
-      background: rgba(99, 102, 241, 0.25);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-    .input-field {
-      background: rgba(255, 255, 255, 0.15);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-    .input-field:focus {
-      border-color: #6366f1;
-      outline: none;
-      box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.5);
-    }
-    .btn-primary {
-      background: linear-gradient(135deg, #6366f1, #a855f7);
-      transition: all 0.3s ease;
-    }
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 20px rgba(99, 102, 241, 0.4);
-    }
-  </style>
-</head>
-<body class="flex items-center justify-center min-h-screen relative">
-  <!-- Background -->
-  <div id="background" class="absolute inset-0"></div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>V.I.K.A.S - Login</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+        font-family: "Poppins", sans-serif;
+      }
+      .glass-card {
+        background: rgba(99, 102, 241, 0.25);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+      .input-field {
+        background: rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+      .input-field:focus {
+        border-color: #6366f1;
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.5);
+      }
+      .btn-primary {
+        background: linear-gradient(135deg, #6366f1, #a855f7);
+        transition: all 0.3s ease;
+      }
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(99, 102, 241, 0.4);
+      }
+    </style>
+  </head>
+  <body class="flex items-center justify-center min-h-screen relative">
+    <!-- Background -->
+    <div id="background" class="absolute inset-0"></div>
 
-  <!-- Login Card -->
-  <div
-    class="glass-card w-full max-w-md p-8 rounded-2xl shadow-xl z-10 text-white"
-    data-aos="zoom-in"
-  >
-    <h2 class="text-4xl font-extrabold mb-6 text-center tracking-wide">
-      V.I.K.A.S.
-    </h2>
+    <!-- Login Card -->
+    <div
+      class="glass-card w-full max-w-md p-8 rounded-2xl shadow-xl z-10 text-white"
+      data-aos="zoom-in"
+    >
+      <h2 class="text-4xl font-extrabold mb-6 text-center tracking-wide">
+        V.I.K.A.S.
+      </h2>
 
-    <form id="login-form" class="space-y-5">
-      <!-- Username -->
-      <div>
-        <label for="username" class="block mb-1">Username</label>
-        <input
-          type="text"
-          id="username"
-          class="input-field w-full px-4 py-3 rounded-lg"
-          placeholder="Enter your username"
-          required
-        />
-      </div>
+      <form id="login-form" class="space-y-5">
+        <!-- Username -->
+        <div>
+          <label for="username" class="block mb-1">Username</label>
+          <input
+            type="text"
+            id="username"
+            class="input-field w-full px-4 py-3 rounded-lg"
+            placeholder="Enter your username"
+            required
+          />
+        </div>
 
-      <!-- Password -->
-      <div>
-        <label for="password" class="block mb-1">Password</label>
-        <input
-          type="password"
-          id="password"
-          class="input-field w-full px-4 py-3 rounded-lg"
-          placeholder="Enter your password"
-          required
-        />
-      </div>
+        <!-- Password -->
+        <div>
+          <label for="password" class="block mb-1">Password</label>
+          <input
+            type="password"
+            id="password"
+            class="input-field w-full px-4 py-3 rounded-lg"
+            placeholder="Enter your password"
+            required
+          />
+        </div>
 
-      <!-- Remember Me -->
-      <div class="flex items-center justify-between text-sm">
-        <label class="flex items-center space-x-2">
-          <input type="checkbox" id="rememberMe" class="form-checkbox" />
-          <span>Remember Me</span>
-        </label>
-        <a href="forgot.html" class="font-medium text-blue-300 hover:text-blue-200">Forgot password?</a>
-      </div>
+        <!-- Remember Me -->
+        <div class="flex items-center justify-between text-sm">
+          <label class="flex items-center space-x-2">
+            <input type="checkbox" id="rememberMe" class="form-checkbox" />
+            <span>Remember Me</span>
+          </label>
+          <a
+            href="forgot.html"
+            class="font-medium text-blue-300 hover:text-blue-200"
+            >Forgot password?</a
+          >
+        </div>
 
-      <!-- Error Message -->
-      <p id="error-msg" class="hidden text-red-400 text-sm"></p>
+        <!-- Error Message -->
+        <p id="error-msg" class="hidden text-red-400 text-sm"></p>
 
-      <!-- Login Button -->
-      <button
-        type="submit"
-        class="btn-primary w-full py-3 rounded-lg font-semibold"
-      >
-        Login
-      </button>
-    </form>
+        <!-- Login Button -->
+        <button
+          type="submit"
+          class="btn-primary w-full py-3 rounded-lg font-semibold"
+        >
+          Login
+        </button>
+      </form>
 
-    <!-- Register -->
-    <p class="mt-6 text-center text-sm text-gray-300">
-      Don’t have an account?
-      <a href="register.html" class="text-indigo-300 hover:text-indigo-400">Register</a>
-    </p>
-  </div>
+      <!-- Register -->
+      <p class="mt-6 text-center text-sm text-gray-300">
+        Don’t have an account?
+        <a href="register.html" class="text-indigo-300 hover:text-indigo-400"
+          >Register</a
+        >
+      </p>
+    </div>
 
-  <!-- Scripts -->
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  <script src="https://unpkg.com/feather-icons"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
 
-  <script>
-  // Initialize AOS + BG
-  window.addEventListener("load", () => {
-    AOS.init({ duration: 1000 });
-    feather.replace();
-    VANTA.NET({
-      el: "#background",
-      mouseControls: true,
-      touchControls: true,
-      color: 0x6366f1,
-      backgroundColor: 0x0
-    });
-  });
-
-  const loginForm = document.getElementById("login-form");
-  const errorMsg = document.getElementById("error-msg");
-
-  loginForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const username = document.getElementById("username").value.trim();
-    const password = document.getElementById("password").value.trim();
-    const rememberMe = document.getElementById("rememberMe").checked;
-
-    if (!username || !password) {
-      errorMsg.textContent = "⚠️ Both fields are required!";
-      errorMsg.classList.remove("hidden");
-      return;
-    }
-
-    try {
-      const res = await fetch("/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
+    <script>
+      // Initialize AOS + BG
+      window.addEventListener("load", () => {
+        AOS.init({ duration: 1000 });
+        feather.replace();
+        VANTA.NET({
+          el: "#background",
+          mouseControls: true,
+          touchControls: true,
+          color: 0x6366f1,
+          backgroundColor: 0x0
+        });
       });
 
-      const result = await res.json();
+      const loginForm = document.getElementById("login-form");
+      const errorMsg = document.getElementById("error-msg");
 
-      if (result.success) {
-        // save user info in local/session storage
-        if (rememberMe) {
-          localStorage.setItem("current-student", JSON.stringify(result.user));
-        } else {
-          sessionStorage.setItem("current-student", JSON.stringify(result.user));
+      loginForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const username = document.getElementById("username").value.trim();
+        const password = document.getElementById("password").value.trim();
+        const rememberMe = document.getElementById("rememberMe").checked;
+
+        if (!username || !password) {
+          errorMsg.textContent = "⚠️ Both fields are required!";
+          errorMsg.classList.remove("hidden");
+          return;
         }
 
-        alert("✅ Login successful!");
-        window.location.href = "dashboard.html"; // redirect after login
-      } else {
-        errorMsg.textContent = "❌ " + result.message;
-        errorMsg.classList.remove("hidden");
-      }
-    } catch (err) {
-      errorMsg.textContent = "⚠️ Server error!";
-      errorMsg.classList.remove("hidden");
-    }
-  });
-</script>
+        try {  // <-- add this
+    const res = await fetch("http://localhost:5000/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password }),
+    });
 
-</body>
+
+          const result = await res.json();
+
+          if (result.success) {
+            // save user info in local/session storage
+            if (rememberMe) {
+              localStorage.setItem("current-student", JSON.stringify(result.user));
+            } else {
+              sessionStorage.setItem("current-student", JSON.stringify(result.user));
+            }
+
+            alert("✅ Login successful!");
+            window.location.href = "dashboard.html"; // redirect after login
+          } else {
+            errorMsg.textContent = "❌ " + result.message;
+            errorMsg.classList.remove("hidden");
+          }
+        } catch (err) {
+          errorMsg.textContent = "⚠️ Server error!";
+          errorMsg.classList.remove("hidden");
+        }
+      });
+    </script>
+  </body>
 </html>

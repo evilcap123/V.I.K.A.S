@@ -1,192 +1,275 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>V.I.K.A.S - Register</title>
-  <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"/>
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.globe.min.js"></script>
-  <style>
-    #vanta-bg {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: -1;
-    }
-    .register-card {
-      backdrop-filter: blur(10px);
-      background-color: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-    .input-field {
-      background-color: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-    }
-    .input-field:focus {
-      background-color: rgba(255, 255, 255, 0.2);
-    }
-    select.input-field {
-      background-color: rgba(0, 0, 0, 0.6);
-      color: white;
-    }
-    select.input-field option {
-      background-color: white;
-      color: black;
-    }
-    .error-message {
-      color: #ff6b6b;
-      font-size: 0.875rem;
-      margin-top: 0.25rem;
-    }
-  </style>
-</head>
-<body class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-900 to-purple-900 text-white">
-  <div id="vanta-bg"></div>
-  
-  <div class="register-card rounded-2xl p-8 w-full max-w-md shadow-2xl" data-aos="zoom-in">
-    <div class="text-center mb-8">
-      <h1 class="text-4xl font-bold mb-2">V.I.K.A.S</h1>
-      <p class="text-blue-200">Create Your Student Account</p>
-    </div>
-    
-    <form id="registration-form" class="space-y-4">
-      <div class="grid grid-cols-2 gap-4">
-        <div>
-          <label for="first-name" class="block text-sm font-medium mb-1">First Name</label>
-          <input type="text" id="first-name" required class="input-field w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition" placeholder="First name">
-        </div>
-        <div>
-          <label for="last-name" class="block text-sm font-medium mb-1">Last Name</label>
-          <input type="text" id="last-name" required class="input-field w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition" placeholder="Last name">
-        </div>
-      </div>
-
-      <div>
-        <label for="email" class="block text-sm font-medium mb-1">Email</label>
-        <input type="email" id="email" required class="input-field w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition" placeholder="student@example.com">
-      </div>
-
-      <div>
-        <label for="username" class="block text-sm font-medium mb-1">Username</label>
-        <input type="text" id="username" required class="input-field w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition" placeholder="Choose username">
-      </div>
-
-      <div class="grid grid-cols-2 gap-4">
-        <div>
-          <label for="password" class="block text-sm font-medium mb-1">Password</label>
-          <input type="password" id="password" required minlength="6" class="input-field w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition" placeholder="Create password">
-        </div>
-        <div>
-          <label for="confirm-password" class="block text-sm font-medium mb-1">Confirm</label>
-          <input type="password" id="confirm-password" required class="input-field w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition" placeholder="Confirm password">
-        </div>
-      </div>
-
-      <div>
-        <label for="class" class="block text-sm font-medium mb-1">Class/Grade</label>
-        <select id="class" required class="input-field w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
-          <option value="" disabled selected>Select your class</option>
-          <option value="1">Class 1</option>
-          <option value="2">Class 2</option>
-          <option value="3">Class 3</option>
-          <option value="4">Class 4</option>
-          <option value="5">Class 5</option>
-          <option value="6">Class 6</option>
-        </select>
-      </div>
-
-      <div class="flex items-start">
-        <input id="terms" type="checkbox" required class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
-        <label for="terms" class="ml-3 text-sm text-blue-200">
-          I agree to the <a href="#" class="text-white hover:text-blue-200 underline">Terms of Service</a> and 
-          <a href="#" class="text-white hover:text-blue-200 underline">Privacy Policy</a>
-        </label>
-      </div>
-      
-      <div id="error-container"></div>
-
-      <button type="submit" class="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white py-3 px-4 rounded-lg font-medium shadow-lg transition duration-300 transform hover:scale-105">
-        Create Account
-      </button>
-    </form>
-
-    <div class="mt-6 text-center">
-      <p class="text-sm text-blue-200">
-        Already have an account? 
-        <a href="index.html" class="font-medium text-white hover:text-blue-200">Sign in here</a>
-      </p>
-    </div>
-  </div>
-
-  <script>
-    document.getElementById('registration-form').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      const errorContainer = document.getElementById('error-container');
-      errorContainer.innerHTML = "";
-
-      const password = document.getElementById('password').value;
-      const confirmPassword = document.getElementById('confirm-password').value;
-
-      if (password !== confirmPassword) {
-        showError("Passwords do not match!");
-        return;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>V.I.K.A.S - Register</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.globe.min.js"></script>
+    <style>
+      #vanta-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
       }
+      .register-card {
+        backdrop-filter: blur(10px);
+        background-color: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+      .input-field {
+        background-color: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+      }
+      .input-field:focus {
+        background-color: rgba(255, 255, 255, 0.2);
+      }
+      select.input-field {
+        background-color: rgba(0, 0, 0, 0.6);
+        color: white;
+      }
+      select.input-field option {
+        background-color: white;
+        color: black;
+      }
+      .error-message {
+        color: #ff6b6b;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+      }
+    </style>
+  </head>
+  <body
+    class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-900 to-purple-900 text-white"
+  >
+    <div id="vanta-bg"></div>
 
-      const studentData = {
-        firstName: document.getElementById('first-name').value.trim(),
-        lastName: document.getElementById('last-name').value.trim(),
-        email: document.getElementById('email').value.trim(),
-        username: document.getElementById('username').value.trim(),
-        password: password,
-        class: document.getElementById('class').value
-      };
+    <div
+      class="register-card rounded-2xl p-8 w-full max-w-md shadow-2xl"
+      data-aos="zoom-in"
+    >
+      <div class="text-center mb-8">
+        <h1 class="text-4xl font-bold mb-2">V.I.K.A.S</h1>
+        <p class="text-blue-200">Create Your Student Account</p>
+      </div>
 
-      try {
-        const res = await fetch("https://your-backend-url.onrender.com/register", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(studentData)
+      <form id="registration-form" class="space-y-4">
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label for="first-name" class="block text-sm font-medium mb-1"
+              >First Name</label
+            >
+            <input
+              type="text"
+              id="first-name"
+              required
+              class="input-field w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+              placeholder="First name"
+            />
+          </div>
+          <div>
+            <label for="last-name" class="block text-sm font-medium mb-1"
+              >Last Name</label
+            >
+            <input
+              type="text"
+              id="last-name"
+              required
+              class="input-field w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+              placeholder="Last name"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label for="email" class="block text-sm font-medium mb-1"
+            >Email</label
+          >
+          <input
+            type="email"
+            id="email"
+            required
+            class="input-field w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+            placeholder="student@example.com"
+          />
+        </div>
+
+        <div>
+          <label for="username" class="block text-sm font-medium mb-1"
+            >Username</label
+          >
+          <input
+            type="text"
+            id="username"
+            required
+            class="input-field w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+            placeholder="Choose username"
+          />
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label for="password" class="block text-sm font-medium mb-1"
+              >Password</label
+            >
+            <input
+              type="password"
+              id="password"
+              required
+              minlength="6"
+              class="input-field w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+              placeholder="Create password"
+            />
+          </div>
+          <div>
+            <label for="confirm-password" class="block text-sm font-medium mb-1"
+              >Confirm</label
+            >
+            <input
+              type="password"
+              id="confirm-password"
+              required
+              class="input-field w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+              placeholder="Confirm password"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label for="class" class="block text-sm font-medium mb-1"
+            >Class/Grade</label
+          >
+          <select
+            id="class"
+            required
+            class="input-field w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+          >
+            <option value="" disabled selected>Select your class</option>
+            <option value="1">Class 1</option>
+            <option value="2">Class 2</option>
+            <option value="3">Class 3</option>
+            <option value="4">Class 4</option>
+            <option value="5">Class 5</option>
+            <option value="6">Class 6</option>
+          </select>
+        </div>
+
+        <div class="flex items-start">
+          <input
+            id="terms"
+            type="checkbox"
+            required
+            class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+          />
+          <label for="terms" class="ml-3 text-sm text-blue-200">
+            I agree to the
+            <a href="#" class="text-white hover:text-blue-200 underline"
+              >Terms of Service</a
+            >
+            and
+            <a href="#" class="text-white hover:text-blue-200 underline"
+              >Privacy Policy</a
+            >
+          </label>
+        </div>
+
+        <div id="error-container"></div>
+
+        <button
+          type="submit"
+          class="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white py-3 px-4 rounded-lg font-medium shadow-lg transition duration-300 transform hover:scale-105"
+        >
+          Create Account
+        </button>
+      </form>
+
+      <div class="mt-6 text-center">
+        <p class="text-sm text-blue-200">
+          Already have an account?
+          <a
+            href="index.html"
+            class="font-medium text-white hover:text-blue-200"
+            >Sign in here</a
+          >
+        </p>
+      </div>
+    </div>
+
+    <script>
+      document
+        .getElementById("registration-form")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+          const errorContainer = document.getElementById("error-container");
+          errorContainer.innerHTML = "";
+
+          const password = document.getElementById("password").value;
+          const confirmPassword =
+            document.getElementById("confirm-password").value;
+
+          if (password !== confirmPassword) {
+            showError("Passwords do not match!");
+            return;
+          }
+
+          const studentData = {
+            firstName: document.getElementById("first-name").value.trim(),
+            lastName: document.getElementById("last-name").value.trim(),
+            email: document.getElementById("email").value.trim(),
+            username: document.getElementById("username").value.trim(),
+            password: password,
+            class: document.getElementById("class").value,
+          };
+
+          try {
+            const res = await fetch("http://localhost:5000/register", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(studentData),
+            });
+            const data = await res.json();
+
+            if (data.success) {
+              alert("Registration successful! You can now login.");
+              window.location.href = "index.html";
+            } else {
+              showError(data.message || "Registration failed");
+            }
+          } catch (err) {
+            showError("Server error. Please try again later.");
+          }
+
+          function showError(msg) {
+            const p = document.createElement("p");
+            p.className = "error-message";
+            p.textContent = msg;
+            errorContainer.appendChild(p);
+          }
         });
-        const data = await res.json();
 
-        if (data.success) {
-          alert("Registration successful! You can now login.");
-          window.location.href = "index.html";
-        } else {
-          showError(data.message || "Registration failed");
-        }
-      } catch (err) {
-        showError("Server error. Please try again later.");
-      }
+      VANTA.GLOBE({
+        el: "#vanta-bg",
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        minHeight: 200.0,
+        minWidth: 200.0,
+        scale: 1.0,
+        scaleMobile: 1.0,
+        color: 0x3a86ff,
+        backgroundColor: 0x0,
+        size: 0.8,
+      });
 
-      function showError(msg) {
-        const p = document.createElement("p");
-        p.className = "error-message";
-        p.textContent = msg;
-        errorContainer.appendChild(p);
-      }
-    });
-
-    VANTA.GLOBE({
-      el: "#vanta-bg",
-      mouseControls: true,
-      touchControls: true,
-      gyroControls: false,
-      minHeight: 200.00,
-      minWidth: 200.00,
-      scale: 1.00,
-      scaleMobile: 1.00,
-      color: 0x3a86ff,
-      backgroundColor: 0x0,
-      size: 0.8
-    });
-
-    AOS.init();
-    feather.replace();
-  </script>
-</body>
+      AOS.init();
+      feather.replace();
+    </script>
+  </body>
 </html>

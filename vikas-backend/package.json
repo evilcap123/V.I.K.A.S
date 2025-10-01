@@ -1,6 +1,7 @@
 {
   "name": "vikas-backend",
   "version": "1.0.0",
+  "type": "module",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -10,11 +11,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@google/genai": "^1.21.0",
     "@google/generative-ai": "^0.24.1",
     "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
-    "dotenv": "^17.2.2",
+    "dotenv": "^17.2.3",
     "express": "^5.1.0",
+    "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.18.1",
     "node-fetch": "^3.3.2"
