@@ -7,7 +7,7 @@
   
   "scripts": {
   "start": "node server.js",
-  "build": "cd public && npm install && npm run build"
+  "build": "cd vikas-backend && npm install && npm run build"
   },
   "keywords": [],
   "author": "",
