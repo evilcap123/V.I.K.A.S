@@ -15,13 +15,13 @@ const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use(helmet()); // 🔒 extra security
+app.use(helmet());
 
 // 📂 Setup __dirname
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// 🔗 Connect to MongoDB
+// 🔗 MongoDB Connection
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("✅ MongoDB Connected"))
@@ -50,24 +50,12 @@ const Student = mongoose.model("Student", studentSchema);
    ================================ */
 app.post("/register", async (req, res) => {
   try {
-    const {
-      firstName,
-      lastName,
-      email,
-      username,
-      password,
-      class: studentClass,
-    } = req.body;
+    const { firstName, lastName, email, username, password, class: studentClass } = req.body;
 
-    // check if username OR email exists
-    const existingUser = await Student.findOne({
-      $or: [{ username }, { email }],
-    });
+    // check if username OR email already exists
+    const existingUser = await Student.findOne({ $or: [{ username }, { email }] });
     if (existingUser) {
-      return res.json({
-        success: false,
-        message: "⚠️ Username or Email already exists",
-      });
+      return res.json({ success: false, message: "⚠️ Username or Email already exists" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -85,10 +73,7 @@ app.post("/register", async (req, res) => {
     res.json({ success: true, message: "✅ Registration successful" });
   } catch (err) {
     if (err.code === 11000) {
-      return res.json({
-        success: false,
-        message: "⚠️ Duplicate username/email",
-      });
+      return res.json({ success: false, message: "⚠️ Duplicate username/email" });
     }
     console.error(err);
     res.status(500).json({ success: false, message: "❌ Server error" });
@@ -103,12 +88,10 @@ app.post("/login", async (req, res) => {
     const { username, password } = req.body;
 
     const student = await Student.findOne({ username });
-    if (!student)
-      return res.json({ success: false, message: "⚠️ User not found" });
+    if (!student) return res.json({ success: false, message: "⚠️ User not found" });
 
     const isMatch = await bcrypt.compare(password, student.password);
-    if (!isMatch)
-      return res.json({ success: false, message: "❌ Invalid password" });
+    if (!isMatch) return res.json({ success: false, message: "❌ Invalid password" });
 
     const token = jwt.sign(
       { id: student._id, username: student.username },
@@ -137,7 +120,7 @@ app.post("/login", async (req, res) => {
 });
 
 /* ================================
-   ✅ Protected Example
+   ✅ Chat-Gemini Stream
    ================================ */
 app.get("/chat-gemini-stream", async (req, res) => {
   const userMessage = req.query.message;
@@ -160,25 +143,17 @@ app.get("/chat-gemini-stream", async (req, res) => {
     res.end();
   } catch (err) {
     console.error("Gemini API Error:", err.message);
-    res.write(
-      `data: ${JSON.stringify({
-        text: "⚠️ Could not connect to AI server.",
-      })}\n\n`
-    );
+    res.write(`data: ${JSON.stringify({ text: "⚠️ Could not connect to AI server." })}\n\n`);
     res.end();
   }
 });
 
-// Serve static files
+// 📦 Serve static frontend (for SPA apps)
 app.use(express.static(path.join(__dirname, "../public")));
-
-// Catch-all for SPA
 app.get(/.*/, (req, res) => {
   res.sendFile(path.join(__dirname, "../public/index.html"));
 });
 
 // 🚀 Start Server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () =>
-  console.log(`✅ Server running at http://localhost:${PORT}`)
-);
+app.listen(PORT, () => console.log(`✅ Server running at http://localhost:${PORT}`));
