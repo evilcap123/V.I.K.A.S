@@ -149,10 +149,11 @@ app.get("/chat-gemini-stream", async (req, res) => {
 });
 
 // 📦 Serve static frontend (for SPA apps)
-// 📦 Serve static frontend (for SPA apps)
+// Serve static frontend
 app.use(express.static(path.join(__dirname, "../public")));
 
-app.get(/^\/.*$/, (req, res) => {
+// Catch-all route for SPA
+app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/index.html"));
 });
 
